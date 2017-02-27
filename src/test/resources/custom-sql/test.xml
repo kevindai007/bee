@@ -1,0 +1,19 @@
+<sqls>
+	<sql id="testsql" sqlType="SQL" tempateType="simple">  
+        <![CDATA[  
+            select * from TEST_ACCOUNT
+        ]]>  
+    </sql>
+    
+    <sql id="rowsql" sqlType="SQL" tempateType="simple">  
+        <![CDATA[  
+            from Account
+        ]]>  
+    </sql>
+    
+    <sql id="countsql" sqlType="SQL" tempateType="simple">  
+        <![CDATA[  
+            select count(a) from Account as a
+        ]]>  
+    </sql>
+</sqls>

@@ -1,0 +1,7 @@
+<sqls>
+	<sql id="testfreemarker" sqlType="SQL" tempateType="freeMarker">  
+        <![CDATA[  
+            select * from TEST_ACCOUNT WHERE 1=1 <#if name??>AND name=:name</#if> 
+        ]]>  
+    </sql>  
+</sqls>
