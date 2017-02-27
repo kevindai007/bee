@@ -1,5 +1,13 @@
 基于hibernate5 封装的公共类，对于单表的CURD操作相比 mybatis 能够减少开发人员很大工作量，适用于内部管理系统。
 
+```xml
+<dependency>
+  <groupId>cn.tongdun.bee</groupId>
+  <artifactId>bee</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
+```
+
 ### 使用步骤，以用户实体为离
 1. 定义User Entity，继承BaseEntity
    ```java
@@ -21,6 +29,7 @@
     ```
 3. 定义Service类
     ```java
+    @Service
     public class UserService extends BaseServiceImpl<User, Long> {
     
         @Autowired
