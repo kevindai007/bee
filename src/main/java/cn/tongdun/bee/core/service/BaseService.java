@@ -47,12 +47,14 @@ public interface BaseService<T, ID extends Serializable> {
 	
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, Order order);
 
-	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int offset, int limit);
+	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int page, int limit);
 
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int offset, int limit);
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int page, int limit);
 
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int offset, int limit);
-	
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit);
+
+	public Pagination<T> findPage(int page, int limit);
+
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest);
 	
 	public LobCreator getLobCreator();

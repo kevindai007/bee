@@ -133,20 +133,28 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	}
 
 	@Transactional(readOnly=true)
-	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int offset, int limit) {
+	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int page, int limit) {
+		int offset = (page - 1) * limit;
 		return this.getHibernateBaseDao().findPageByNamedParam(propertyName, value, offset, limit);
 	}
 
 	@Transactional(readOnly=true)
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int offset, int limit) {
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int page, int limit) {
+		int offset = (page - 1) * limit;
 		return this.getHibernateBaseDao().findPageByNamedParam(propertyNames, values, offset, limit);
 	}
 
 	@Transactional(readOnly=true)
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int offset, int limit) {
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit) {
+		int offset = (page - 1) * limit;
 		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyNames, values, orders, offset, limit);
 	}
-	
+
+	public Pagination<T> findPage(int page, int limit) {
+		int offset = (page - 1) * limit;
+		return this.getHibernateBaseDao().findPageByExample(offset, limit);
+	}
+
 	@Transactional(readOnly=true)
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest) {
 		return this.getHibernateBaseDao().findPage(paginationRequest);
