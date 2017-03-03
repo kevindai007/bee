@@ -8,6 +8,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.engine.jdbc.LobCreator;
 
 import cn.tongdun.bee.core.support.Pagination;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -45,6 +46,12 @@ public interface BaseService<T, ID extends Serializable> {
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String propertyName, Object value, Order order);
 	
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, Order order);
+
+	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int offset, int limit);
+
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int offset, int limit);
+
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int offset, int limit);
 	
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest);
 	

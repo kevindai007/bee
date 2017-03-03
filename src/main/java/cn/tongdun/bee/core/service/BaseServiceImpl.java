@@ -131,12 +131,24 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, Order order) {
 		return this.getHibernateBaseDao().findByNamedParamAndOrder(joinEntitys, propertyNames, values, new Order[]{order});
 	}
+
+	@Transactional(readOnly=true)
+	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int offset, int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParam(propertyName, value, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int offset, int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParam(propertyNames, values, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int offset, int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyNames, values, orders, offset, limit);
+	}
 	
 	@Transactional(readOnly=true)
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest) {
-		if(isAssignableBaseEntity) {
-			paginationRequest.addCondition("delFlag", 0);
-		}
 		return this.getHibernateBaseDao().findPage(paginationRequest);
 	}
 	
