@@ -26,6 +26,8 @@ public interface BaseService<T, ID extends Serializable> {
 	public void createOrUpdate(T entity);
 	
 	public T deleteEntity(ID id);
+
+	public List<T> findAllEntity();
 	
 	public T logicDeleteEntity(ID id);
 	

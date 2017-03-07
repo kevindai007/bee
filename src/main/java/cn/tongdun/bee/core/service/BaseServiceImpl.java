@@ -43,36 +43,43 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public T getEntity(ID id) {
 		return this.getHibernateBaseDao().get(id);
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findAllEntity() {
 		return this.getHibernateBaseDao().loadAll();
 	}
 	
 	@Transactional
+	@Override
 	public ID insertEntity(T entity) {
 		return this.getHibernateBaseDao().save(entity);
 	}
 	
 	@Transactional
+	@Override
 	public void updateEntity(T entity) {
 		this.getHibernateBaseDao().update(entity);
 	}
 	
 	@Transactional
+	@Override
 	public void createOrUpdate(T entity) {
 		this.getHibernateBaseDao().saveOrUpdate(entity);
 	}
 	
 	@Transactional
+	@Override
 	public T deleteEntity(ID id) {
 		return this.getHibernateBaseDao().delete(id);
 	}
 	
 	@Transactional
+	@Override
 	public T logicDeleteEntity(ID id) {
 		T entity = this.getEntity(id);
 		if(entity != null && entity instanceof BaseEntity) {
@@ -85,6 +92,7 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	}
 	
 	@Transactional
+	@Override
 	public void bulkDeleteEntity(ID[] ids) {
 		for(ID id : ids) {
 			this.deleteEntity(id);
@@ -92,47 +100,56 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> loadEntities() {
 		return this.getHibernateBaseDao().loadAll();
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParam(String propertyName, Object value) {
 		return this.getHibernateBaseDao().findByNamedParam(propertyName, value);
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParam(String[] propertyNames, Object[] values) {
 		return this.getHibernateBaseDao().findByNamedParam(propertyNames, values);
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParamAndOrder(String propertyName, Object value, Order order) {
 		return this.getHibernateBaseDao().findByNamedParamAndOrder(propertyName, value, order);
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order ... orders) {
 		return this.getHibernateBaseDao().findByNamedParamAndOrder(propertyNames, values, orders);
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParamAndOrder(String joinEntity, String propertyName, Object value, Order order) {
 		return this.findByNamedParamAndOrder(new String[]{joinEntity}, propertyName, value, order);
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String propertyName, Object value, Order order) {
 		return this.getHibernateBaseDao().findByNamedParamAndOrder(joinEntitys, new String[]{propertyName}, 
 				new Object[]{value}, new Order[]{order});
 	}
 	
 	@Transactional(readOnly=true)
+	@Override
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, Order order) {
 		return this.getHibernateBaseDao().findByNamedParamAndOrder(joinEntitys, propertyNames, values, new Order[]{order});
 	}
 
 	@Transactional(readOnly=true)
+	@Override
 	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int page, int limit) {
 		int offset = (page - 1) * limit;
 		return this.getHibernateBaseDao().findPageByNamedParam(propertyName, value, offset, limit);
@@ -145,17 +162,21 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	}
 
 	@Transactional(readOnly=true)
+	@Override
 	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit) {
 		int offset = (page - 1) * limit;
 		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyNames, values, orders, offset, limit);
 	}
 
+	@Transactional(readOnly=true)
+	@Override
 	public Pagination<T> findPage(int page, int limit) {
 		int offset = (page - 1) * limit;
 		return this.getHibernateBaseDao().findPageByExample(offset, limit);
 	}
 
 	@Transactional(readOnly=true)
+	@Override
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest) {
 		return this.getHibernateBaseDao().findPage(paginationRequest);
 	}
