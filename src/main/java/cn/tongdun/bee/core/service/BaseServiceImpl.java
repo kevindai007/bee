@@ -180,6 +180,46 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest) {
 		return this.getHibernateBaseDao().findPage(paginationRequest);
 	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Pagination<T> findPageByNamedParam(String joinEntity, String propertyName, Object value,
+											  final int offset, final int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParam(joinEntity, propertyName, value, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Pagination<T> findPageByNamedParam(String propertyName, Object value, final int offset, final int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParam(propertyName, value, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Pagination<T> findPageByNamedParamAndOrder(String propertyName, Object value, Order order,
+													  final int offset, final int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyName, value, order, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Pagination<T> findPageByNamedParam(String[] propertyNames, Object[] values, final int offset, final int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParam(propertyNames, values, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Pagination<T> findPageByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders,
+													  final int offset, final int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyNames, values, orders, offset, limit);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values,
+													  final Order[] orders, final int offset, final int limit) {
+		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(joinEntitys, propertyNames, values, orders, offset, limit);
+	}
 	
 	public LobCreator getLobCreator() {
 		return this.getHibernateBaseDao().getLobCreator();
