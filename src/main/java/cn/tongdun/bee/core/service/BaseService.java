@@ -59,18 +59,18 @@ public interface BaseService<T, ID extends Serializable> {
 
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest);
 
-	public Pagination<T> findPageByNamedParam(String joinEntity, String propertyName, Object value, final int offset, final int limit);
+	public Pagination<T> findPageByNamedParam(String joinEntity, String propertyName, Object value, final int page, final int limit);
 
-	public Pagination<T> findPageByNamedParam(String propertyName, Object value, final int offset, final int limit);
+	public Pagination<T> findPageByNamedParam(String propertyName, Object value, final int page, final int limit);
 
-	public Pagination<T> findPageByNamedParamAndOrder(String propertyName, Object value, Order order, final int offset, final int limit);
+	public Pagination<T> findPageByNamedParamAndOrder(String propertyName, Object value, Order order, final int page, final int limit);
 
-	public Pagination<T> findPageByNamedParam(String[] propertyNames, Object[] values, final int offset, final int limit);
+	public Pagination<T> findPageByNamedParam(String[] propertyNames, Object[] values, final int page, final int limit);
 
-	public Pagination<T> findPageByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, final int offset, final int limit);
+	public Pagination<T> findPageByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, final int page, final int limit);
 
 	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values,
-													  final Order[] orders, final int offset, final int limit);
+													  final Order[] orders, final int page, final int limit);
 
 	public Long queryCount(String propertyName, Object value);
 
