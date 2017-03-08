@@ -1,6 +1,7 @@
 package cn.tongdun.bee.core.hibernate5;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -444,6 +445,22 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 */
 	public Pagination<T> findPageByExample(final int offset, final int limit);
 
+	/**
+	 *
+	 * @param propertyNames
+	 * @param values
+	 * @return
+	 */
+	public Long findCountByNamedParam(String[] propertyNames, Object[] values);
+
+	/**
+	 *
+	 * @param propertyName
+	 * @param value
+	 * @return
+	 */
+	public Long findCountByNamedParam(String propertyName, Object value);
+
 	// -------------------------------------------------------------------------
 	// Convenience query methods for iteration and bulk updates/deletes
 	// -------------------------------------------------------------------------
@@ -465,4 +482,22 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @see org.springframework.orm.hibernate5.HibernateOperations#bulkUpdate(String, Object...)
 	 */
 	public int bulkUpdate(final String queryString, final Object... values);
+
+	/**
+	 *
+	 * @param joinEntitys
+	 * @param propertyNames
+	 * @param values
+	 * @return
+	 */
+	public DetachedCriteria createDetachedCriteria(String[] joinEntitys, String[] propertyNames, Object[] values);
+
+	/**
+	 *
+	 * @param joinEntitys
+	 * @param propertyNames
+	 * @param values
+	 * @return
+	 */
+	public DetachedCriteria createDetachedCriteria(List<String> joinEntitys, List<String> propertyNames, List<Object> values);
 }

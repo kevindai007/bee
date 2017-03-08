@@ -71,6 +71,10 @@ public interface BaseService<T, ID extends Serializable> {
 
 	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values,
 													  final Order[] orders, final int offset, final int limit);
+
+	public Long queryCount(String propertyName, Object value);
+
+	public Long queryCount(String[] propertyNames, Object[] values);
 	
 	public LobCreator getLobCreator();
 }

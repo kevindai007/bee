@@ -755,6 +755,25 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 		});
 	}
 
+	@Override
+	public Long findCountByNamedParam(String propertyName, Object value) {
+		return this.findCountByNamedParam(new String[]{propertyName}, new Object[]{value});
+	}
+
+	@Override
+	public Long findCountByNamedParam(String[] propertyNames, Object[] values) {
+		final DetachedCriteria criteria = createDetachedCriteria(null, propertyNames, values);
+		return doExecute(new HibernateCallback<Long>() {
+			public Long doInHibernate(Session session) throws HibernateException {
+				Criteria executableCriteria = criteria.getExecutableCriteria(session);
+				prepareCriteria(executableCriteria);
+
+				long totalCount = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
+				return totalCount;
+			}
+		});
+	}
+
 	// -------------------------------------------------------------------------
 	// Convenience query methods for iteration and bulk updates/deletes
 	// -------------------------------------------------------------------------
@@ -813,15 +832,17 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			criteria.setMaxResults(this.getMaxResults());
 		}
 	}
-	
-	protected DetachedCriteria createDetachedCriteria(String[] joinEntitys, String[] propertyNames, Object[] values) {
+
+	@Override
+	public DetachedCriteria createDetachedCriteria(String[] joinEntitys, String[] propertyNames, Object[] values) {
 		if(joinEntitys != null)
 			return createDetachedCriteria(Arrays.asList(joinEntitys), Arrays.asList(propertyNames), Arrays.asList(values));
 		else
 			return createDetachedCriteria(null, Arrays.asList(propertyNames), Arrays.asList(values));
 	}
-	
-	protected DetachedCriteria createDetachedCriteria(List<String> joinEntitys, List<String> propertyNames, List<Object> values) {
+
+	@Override
+	public DetachedCriteria createDetachedCriteria(List<String> joinEntitys, List<String> propertyNames, List<Object> values) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(entityClass);
 
 		if(joinEntitys != null) {

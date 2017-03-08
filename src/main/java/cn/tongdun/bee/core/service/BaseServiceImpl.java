@@ -220,6 +220,18 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 													  final Order[] orders, final int offset, final int limit) {
 		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(joinEntitys, propertyNames, values, orders, offset, limit);
 	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Long queryCount(String propertyName, Object value) {
+		return this.getHibernateBaseDao().findCountByNamedParam(propertyName, value);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Long queryCount(String[] propertyNames, Object[] values) {
+		return this.getHibernateBaseDao().findCountByNamedParam(propertyNames, values);
+	}
 	
 	public LobCreator getLobCreator() {
 		return this.getHibernateBaseDao().getLobCreator();
