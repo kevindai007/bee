@@ -15,6 +15,8 @@ public class LoginUserDetails extends User {
      */
     private String cnName;
 
+    private String email;
+
     public LoginUserDetails(String username, String password,
                             Collection<? extends GrantedAuthority> authorities) {
         super(username, password, true, true, true, true, authorities);
@@ -31,5 +33,13 @@ public class LoginUserDetails extends User {
 
     public void setCnName(String cnName) {
         this.cnName = cnName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
