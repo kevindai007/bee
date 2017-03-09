@@ -466,6 +466,15 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	public Pagination<T> findPageByExample(final int offset, final int limit);
 
 	/**
+	 * Execute a page query based on a given Hibernate criteria object.
+	 * @param orders
+	 * @param offset the first result to retrieve, numbered from <tt>0</tt>
+	 * @param limit the maximum number of results
+	 * @return a {@link Pagination} contain query records and the total number of records
+	 */
+	public Pagination<T> findPageAndOrderByExample(final Order[] orders, final int offset, final int limit);
+
+	/**
 	 *
 	 * @param propertyNames
 	 * @param values

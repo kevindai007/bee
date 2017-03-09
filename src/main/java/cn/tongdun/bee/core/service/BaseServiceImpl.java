@@ -182,6 +182,12 @@ abstract public class BaseServiceImpl<T extends BaseEntity, ID extends Serializa
 
 	@Transactional(readOnly=true)
 	@Override
+	public Pagination<T> findPageAndOrder(Order[] orders, int page, int limit) {
+		return this.getHibernateBaseDao().findPageAndOrderByExample(orders, page, limit);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
 	public Pagination<T> findPageByNamedParam(String joinEntity, String propertyName, Object value,
 											  final int page, final int limit) {
 		int offset = (page - 1) * limit;

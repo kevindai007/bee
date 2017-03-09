@@ -55,6 +55,8 @@ public interface BaseService<T extends BaseEntity, ID extends Serializable> {
 
 	public Pagination<T> findPage(int page, int limit);
 
+	public Pagination<T> findPageAndOrder(Order[] orders, int page, int limit);
+
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest);
 
 	public Pagination<T> findPageByNamedParam(String joinEntity, String propertyName, Object value, final int page, final int limit);

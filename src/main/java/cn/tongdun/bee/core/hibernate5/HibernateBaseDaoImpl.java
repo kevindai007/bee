@@ -762,11 +762,22 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 
 	@Override
 	public Pagination<T> findPageByExample(final int offset, final int limit) {
+		return this.findPageAndOrderByExample(null, offset, limit);
+	}
+
+	@Override
+	public Pagination<T> findPageAndOrderByExample(final Order[] orders, final int offset, final int limit) {
 		return doExecute(new HibernateCallback<Pagination<T>>() {
 			public Pagination<T> doInHibernate(Session session) throws HibernateException {
 				Criteria executableCriteria = session.createCriteria(entityClass);
 				prepareCriteria(executableCriteria);
-				
+
+				if(orders != null) {
+					for(Order order : orders) {
+						executableCriteria.addOrder(order);
+					}
+				}
+
 				long totalRecords = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
 				executableCriteria.setProjection(null);
 				List items = executableCriteria.setFirstResult(offset).setMaxResults(limit).list();
