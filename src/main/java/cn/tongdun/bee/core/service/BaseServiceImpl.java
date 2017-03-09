@@ -183,7 +183,8 @@ abstract public class BaseServiceImpl<T extends BaseEntity, ID extends Serializa
 	@Transactional(readOnly=true)
 	@Override
 	public Pagination<T> findPageAndOrder(Order[] orders, int page, int limit) {
-		return this.getHibernateBaseDao().findPageAndOrderByExample(orders, page, limit);
+		int offset = (page - 1) * limit;
+		return this.getHibernateBaseDao().findPageAndOrderByExample(orders, offset, limit);
 	}
 
 	@Transactional(readOnly=true)
