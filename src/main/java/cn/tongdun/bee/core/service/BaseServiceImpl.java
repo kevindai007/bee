@@ -252,6 +252,8 @@ abstract public class BaseServiceImpl<T extends BaseEntity, ID extends Serializa
 			String name = userDetails.getCnName() + "#" + userDetails.getUsername();
 			entity.setCreater(name);
 			entity.setGmtCreated(new Date());
+			entity.setModifier(name);
+			entity.setGmtModified(new Date());
 		}
 	}
 
