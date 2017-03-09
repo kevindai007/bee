@@ -3,15 +3,18 @@ package cn.tongdun.bee.core.service;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import cn.tongdun.bee.core.hibernate5.HibernateBaseDao;
 import cn.tongdun.bee.core.support.PaginationRequest;
+import cn.tongdun.bee.model.LoginUserDetails;
 import org.hibernate.criterion.Order;
 import org.hibernate.engine.jdbc.LobCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 
@@ -24,7 +27,7 @@ import cn.tongdun.bee.model.BaseEntity;
  * @datetime 2010-8-9 上午09:15:19
  * @author libinsong1204@gmail.com
  */
-abstract public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID>, InitializingBean {
+abstract public class BaseServiceImpl<T extends BaseEntity, ID extends Serializable> implements BaseService<T, ID>, InitializingBean {
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	protected Class<T> entityClass;
@@ -57,19 +60,15 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	@Transactional
 	@Override
 	public ID insertEntity(T entity) {
+		setCreaterAndTime(entity);
 		return this.getHibernateBaseDao().save(entity);
 	}
 	
 	@Transactional
 	@Override
 	public void updateEntity(T entity) {
+		setModifierAndTime(entity);
 		this.getHibernateBaseDao().update(entity);
-	}
-	
-	@Transactional
-	@Override
-	public void createOrUpdate(T entity) {
-		this.getHibernateBaseDao().saveOrUpdate(entity);
 	}
 	
 	@Transactional
@@ -241,5 +240,31 @@ abstract public class BaseServiceImpl<T, ID extends Serializable> implements Bas
 	
 	public LobCreator getLobCreator() {
 		return this.getHibernateBaseDao().getLobCreator();
+	}
+
+	private void setCreaterAndTime(T entity) {
+		LoginUserDetails userDetails = (LoginUserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+
+		if(userDetails == null) {
+			logger.warn("SecurityContex access to information is empty, please login system.");
+		} else {
+			String name = userDetails.getCnName() + "#" + userDetails.getUsername();
+			entity.setCreater(name);
+			entity.setGmtCreated(new Date());
+		}
+	}
+
+	private void setModifierAndTime(T entity) {
+		LoginUserDetails userDetails = (LoginUserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+
+		if(userDetails == null) {
+			logger.warn("SecurityContex access to information is empty, please login system.");
+		} else {
+			String name = userDetails.getCnName() + "#" + userDetails.getUsername();
+			entity.setModifier(name);
+			entity.setGmtModified(new Date());
+		}
 	}
 }

@@ -179,6 +179,26 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	public void deleteAll(final Collection<T> entities);
 
 	/**
+	 * hsql 执行删除数据
+	 *
+	 * @param hql
+	 * @param paramName
+	 * @param value
+	 * @return
+	 */
+	public Integer deleteByHQL(final String hql, final String paramName, final Object value);
+
+	/**
+	 * hsql 执行删除数据
+	 *
+	 * @param hql
+	 * @param paramNames
+	 * @param values
+	 * @return
+	 */
+	public Integer deleteByHQL(final String hql, final String[] paramNames, final Object[] values);
+
+	/**
 	 * @see org.springframework.orm.hibernate5.HibernateTemplate#flush()
 	 * @see org.springframework.orm.hibernate5.HibernateOperations#flush()
 	 */

@@ -43,4 +43,16 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 		assertEquals("melin", list.get(0).getName());
 	}
 
+	@Test
+	public void testDeleteByHQL() {
+		Account account = new Account();
+		account.setName("test");
+		Address address = new Address();
+		address.setName("hangzhou");
+		account.setAddress(address);
+		accountDao.save(account);
+
+		int count = accountDao.deleteByHQL("delete from Account where name = :name", "name", "test");
+		assertEquals(1, count);
+	}
 }

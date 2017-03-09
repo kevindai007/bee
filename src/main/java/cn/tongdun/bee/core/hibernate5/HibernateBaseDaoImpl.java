@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.TypedQuery;
 
 import cn.tongdun.bee.core.support.PaginationRequest;
 import org.hibernate.Criteria;
@@ -365,6 +366,28 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 					session.delete(entity);
 				}
 				return null;
+			}
+		});
+	}
+
+	@Override
+	public Integer deleteByHQL(final String hql, final String paramName, final Object value) {
+		return this.deleteByHQL(hql, new String[]{paramName}, new Object[]{value});
+	}
+
+	@Override
+	public Integer deleteByHQL(final String hql, final String[] paramNames, final Object[] values) {
+		return doExecute(new HibernateCallback<Integer>() {
+
+			@Override
+			public Integer doInHibernate(Session session) throws HibernateException, SQLException {
+				TypedQuery query = session.createQuery(hql);
+				for(int i=0, len=paramNames.length; i<len; i++) {
+					if(values[i] != null) {
+						query.setParameter(paramNames[i], values[i]);
+					}
+				}
+				return query.executeUpdate();
 			}
 		});
 	}
