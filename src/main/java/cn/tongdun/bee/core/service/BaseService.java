@@ -47,9 +47,9 @@ public interface BaseService<T extends BaseEntity, ID extends Serializable> {
 	
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, Order order);
 
-	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int page, int limit);
+	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, Order order, int page, int limit);
 
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, int page, int limit);
+	public Pagination<T> findByNamedParam(String[] propertyNames, Object[] values, int page, int limit);
 
 	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit);
 

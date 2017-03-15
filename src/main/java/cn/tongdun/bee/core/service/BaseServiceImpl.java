@@ -149,9 +149,9 @@ abstract public class BaseServiceImpl<T extends BaseEntity, ID extends Serializa
 
 	@Transactional(readOnly=true)
 	@Override
-	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, int page, int limit) {
+	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, Order order, int page, int limit) {
 		int offset = (page - 1) * limit;
-		return this.getHibernateBaseDao().findPageByNamedParam(propertyName, value, offset, limit);
+		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyName, value, order, offset, limit);
 	}
 
 	@Transactional(readOnly=true)
