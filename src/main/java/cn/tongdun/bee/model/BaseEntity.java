@@ -5,7 +5,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  *
@@ -57,6 +57,7 @@ public class BaseEntity implements Serializable {
 		this.modifier = modifier;
 	}
 
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	public Date getGmtCreated() {
 		return gmtCreated;
 	}
@@ -65,6 +66,7 @@ public class BaseEntity implements Serializable {
 		this.gmtCreated = gmtCreated;
 	}
 
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	public Date getGmtModified() {
 		return gmtModified;
 	}
