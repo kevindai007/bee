@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 
 import cn.tongdun.bee.core.support.Pagination;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.util.Assert;
 
 import com.alibaba.druid.sql.PagerUtils;
 
@@ -25,7 +24,6 @@ public class NamedParameterJdbcPager {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	public NamedParameterJdbcPager(DataSource dataSource, String dbType) {
-		Assert.isNull(dbType, "dbType cannot be empty");
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		this.dbType = dbType;
 	}
