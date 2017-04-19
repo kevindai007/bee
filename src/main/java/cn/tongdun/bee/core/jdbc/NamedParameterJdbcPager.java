@@ -31,21 +31,22 @@ public class NamedParameterJdbcPager {
 	}
 	
 	public Pagination<Map<String, Object>> queryPage(String sql,
-                                                     int offset, int limit) {
-		return this.queryPage(sql, offset, limit, null);
+                                                     int page, int limit) {
+		return this.queryPage(sql, page, limit, null);
 	}
 
 	public Pagination<Map<String, Object>> queryPage(String sql, 
-			int offset, int limit, Map<String, Object> paramMap) {
+			int page, int limit, Map<String, Object> paramMap) {
 		String countSql = PagerUtils.count(sql, dbType);
+		int offset = (page - 1) * limit;
 		String limitSql = PagerUtils.limit(sql, dbType, offset, limit);
 		
 		long totalRecords = jdbcTemplate.queryForObject(countSql, paramMap, Long.class);
 		List<Map<String, Object>> items = jdbcTemplate.queryForList(limitSql, paramMap);
 		
 		double totalPages = Math.ceil(totalRecords * 1d / limit);
-		Pagination<Map<String, Object>> page = new Pagination<Map<String, Object>>((long)totalPages, offset, limit, totalRecords, items);
-		return page;
+		Pagination<Map<String, Object>> pagination = new Pagination<Map<String, Object>>((long)totalPages, offset, limit, totalRecords, items);
+		return pagination;
 	}
 
 	public String getDbType() {

@@ -75,6 +75,11 @@ public interface BaseService<T extends BaseEntity, ID extends Serializable> {
 	public Long queryCount(String propertyName, Object value);
 
 	public Long queryCount(String[] propertyNames, Object[] values);
-	
+
+	public Integer deleteOrUpdateByHQL(final String hql, final String paramName, final Object value);
+
+	public Integer deleteOrUpdateByHQL(final String hql, final String[] paramNames, final Object[] values);
+
+
 	public LobCreator getLobCreator();
 }

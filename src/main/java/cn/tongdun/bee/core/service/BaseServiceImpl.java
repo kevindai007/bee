@@ -245,6 +245,18 @@ abstract public class BaseServiceImpl<T extends BaseEntity, ID extends Serializa
 	public Long queryCount(String[] propertyNames, Object[] values) {
 		return this.getHibernateBaseDao().findCountByNamedParam(propertyNames, values);
 	}
+
+	@Transactional
+	@Override
+	public Integer deleteOrUpdateByHQL(final String hql, final String paramName, final Object value) {
+		return this.getHibernateBaseDao().deleteOrUpdateByHQL(hql, paramName, value);
+	}
+
+	@Transactional
+	@Override
+	public Integer deleteOrUpdateByHQL(final String hql, final String[] paramNames, final Object[] values) {
+		return this.getHibernateBaseDao().deleteOrUpdateByHQL(hql, paramNames, values);
+	}
 	
 	public LobCreator getLobCreator() {
 		return this.getHibernateBaseDao().getLobCreator();
