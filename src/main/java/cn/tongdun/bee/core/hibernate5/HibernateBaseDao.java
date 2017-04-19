@@ -186,7 +186,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @param value
 	 * @return
 	 */
-	public Integer deleteByHQL(final String hql, final String paramName, final Object value);
+	public Integer deleteOrUpdateByHQL(final String hql, final String paramName, final Object value);
 
 	/**
 	 * hsql 执行删除数据
@@ -196,7 +196,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @param values
 	 * @return
 	 */
-	public Integer deleteByHQL(final String hql, final String[] paramNames, final Object[] values);
+	public Integer deleteOrUpdateByHQL(final String hql, final String[] paramNames, final Object[] values);
 
 	/**
 	 * @see org.springframework.orm.hibernate5.HibernateTemplate#flush()

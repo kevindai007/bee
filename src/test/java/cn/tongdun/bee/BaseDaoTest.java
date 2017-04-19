@@ -52,7 +52,7 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 		account.setAddress(address);
 		accountDao.save(account);
 
-		int count = accountDao.deleteByHQL("delete from Account where name = :name", "name", "test");
+		int count = accountDao.deleteOrUpdateByHQL("delete from Account where name = :name", "name", "test");
 		assertEquals(1, count);
 	}
 }

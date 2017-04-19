@@ -371,12 +371,12 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	}
 
 	@Override
-	public Integer deleteByHQL(final String hql, final String paramName, final Object value) {
-		return this.deleteByHQL(hql, new String[]{paramName}, new Object[]{value});
+	public Integer deleteOrUpdateByHQL(final String hql, final String paramName, final Object value) {
+		return this.deleteOrUpdateByHQL(hql, new String[]{paramName}, new Object[]{value});
 	}
 
 	@Override
-	public Integer deleteByHQL(final String hql, final String[] paramNames, final Object[] values) {
+	public Integer deleteOrUpdateByHQL(final String hql, final String[] paramNames, final Object[] values) {
 		return doExecute(new HibernateCallback<Integer>() {
 
 			@Override
