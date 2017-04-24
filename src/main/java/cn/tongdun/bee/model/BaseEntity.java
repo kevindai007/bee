@@ -5,15 +5,13 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 /**
  *
  * @datetime 2010-8-12 下午05:15:55
  * @author libinsong1204@gmail.com
  */
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class BaseEntity implements Entity, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -57,7 +55,6 @@ public class BaseEntity implements Serializable {
 		this.modifier = modifier;
 	}
 
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	public Date getGmtCreated() {
 		return gmtCreated;
 	}
@@ -66,7 +63,6 @@ public class BaseEntity implements Serializable {
 		this.gmtCreated = gmtCreated;
 	}
 
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	public Date getGmtModified() {
 		return gmtModified;
 	}
