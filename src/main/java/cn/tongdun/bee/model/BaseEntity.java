@@ -11,7 +11,7 @@ import javax.persistence.*;
  * @author libinsong1204@gmail.com
  */
 @MappedSuperclass
-public class BaseEntity implements Entity, Serializable {
+public class BaseEntity implements IEntity, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

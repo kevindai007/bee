@@ -8,7 +8,7 @@ import java.util.List;
 
 import cn.tongdun.bee.core.hibernate5.HibernateBaseDao;
 import cn.tongdun.bee.core.support.PaginationRequest;
-import cn.tongdun.bee.model.Entity;
+import cn.tongdun.bee.model.IEntity;
 import cn.tongdun.bee.model.LoginUserDetails;
 import org.hibernate.criterion.Order;
 import org.hibernate.engine.jdbc.LobCreator;
@@ -28,7 +28,7 @@ import cn.tongdun.bee.model.BaseEntity;
  * @datetime 2010-8-9 上午09:15:19
  * @author libinsong1204@gmail.com
  */
-abstract public class BaseServiceImpl<T extends Entity, ID extends Serializable> implements BaseService<T, ID>, InitializingBean {
+abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable> implements BaseService<T, ID>, InitializingBean {
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	protected Class<T> entityClass;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.tongdun.bee.core.support.PaginationRequest;
-import cn.tongdun.bee.model.Entity;
+import cn.tongdun.bee.model.IEntity;
 import org.hibernate.criterion.Order;
 import org.hibernate.engine.jdbc.LobCreator;
 
@@ -15,7 +15,7 @@ import cn.tongdun.bee.core.support.Pagination;
  * @datetime 2010-8-9 上午09:14:46
  * @author libinsong1204@gmail.com
  */
-public interface BaseService<T extends Entity, ID extends Serializable> {
+public interface BaseService<T extends IEntity, ID extends Serializable> {
 	
 	public T getEntity(ID id);
 	
