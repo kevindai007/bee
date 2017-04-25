@@ -19,6 +19,8 @@ public class LoginUserDetails extends User {
 
     private String appkey;
 
+    private String appsecret;
+
     public LoginUserDetails(String username, String password,
                             Collection<? extends GrantedAuthority> authorities) {
         super(username, password, true, true, true, true, authorities);
@@ -51,5 +53,13 @@ public class LoginUserDetails extends User {
 
     public void setAppkey(String appkey) {
         this.appkey = appkey;
+    }
+
+    public String getAppsecret() {
+        return appsecret;
+    }
+
+    public void setAppsecret(String appsecret) {
+        this.appsecret = appsecret;
     }
 }
