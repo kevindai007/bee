@@ -1,5 +1,7 @@
 package cn.tongdun.bee.model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
  * @author libinsong1204@gmail.com
  */
 @MappedSuperclass
+@Data
 public class BaseEntity implements IEntity, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -33,41 +36,5 @@ public class BaseEntity implements IEntity, Serializable {
 	
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCreater() {
-		return creater;
-	}
-
-	public void setCreater(String creater) {
-		this.creater = creater;
-	}
-
-	public String getModifier() {
-		return modifier;
-	}
-
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
-	}
-
-	public Date getGmtCreated() {
-		return gmtCreated;
-	}
-
-	public void setGmtCreated(Date gmtCreated) {
-		this.gmtCreated = gmtCreated;
-	}
-
-	public Date getGmtModified() {
-		return gmtModified;
-	}
-
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
 	}
 }
