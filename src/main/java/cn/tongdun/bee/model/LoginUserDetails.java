@@ -31,6 +31,10 @@ public class LoginUserDetails extends User {
         this.cnName = cnName;
     }
 
+    public String getFullName() {
+        return this.getCnName() + "#" + this.getUsername();
+    }
+
     public String getCnName() {
         return cnName;
     }
