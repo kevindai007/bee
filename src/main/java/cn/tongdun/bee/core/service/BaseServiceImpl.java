@@ -157,16 +157,16 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 
 	@Transactional(readOnly=true)
 	@Override
-	public Pagination<T> findByNamedParam(String[] propertyNames, Object[] values, int page, int limit) {
+	public List<T> findByNamedParam(String[] propertyNames, Object[] values, int page, int limit) {
 		int offset = (page - 1) * limit;
-		return this.getHibernateBaseDao().findPageByNamedParam(propertyNames, values, offset, limit);
+		return this.getHibernateBaseDao().findByNamedParam(propertyNames, values, offset, limit);
 	}
 
 	@Transactional(readOnly=true)
 	@Override
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit) {
+	public List<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit) {
 		int offset = (page - 1) * limit;
-		return this.getHibernateBaseDao().findPageByNamedParamAndOrder(propertyNames, values, orders, offset, limit);
+		return this.getHibernateBaseDao().findByNamedParamAndOrder(propertyNames, values, orders, offset, limit);
 	}
 
 	@Transactional(readOnly=true)

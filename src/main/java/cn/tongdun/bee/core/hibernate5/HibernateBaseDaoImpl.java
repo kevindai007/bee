@@ -640,7 +640,32 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 				return page;
 			}
 		});
-		
+	}
+
+	@Override
+	public List<T> findByNamedParam(String[] propertyNames, Object[] values, final int offset, final int limit) {
+		return this.findByNamedParamAndOrder(propertyNames, values, new Order[]{}, offset, limit);
+	}
+
+	@Override
+	public List<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, final int offset, final int limit) {
+		final DetachedCriteria criteria = createDetachedCriteria(null, propertyNames, values);
+		return doExecute(new HibernateCallback<List<T>>() {
+			public List<T> doInHibernate(Session session) throws HibernateException {
+				Criteria executableCriteria = criteria.getExecutableCriteria(session);
+				prepareCriteria(executableCriteria);
+
+				executableCriteria.setProjection(null);
+				if(orders != null) {
+					for (Order order : orders) {
+						criteria.addOrder(order);
+					}
+				}
+
+				List items = executableCriteria.setFirstResult(offset).setMaxResults(limit).list();
+				return items;
+			}
+		});
 	}
 
 	// -------------------------------------------------------------------------

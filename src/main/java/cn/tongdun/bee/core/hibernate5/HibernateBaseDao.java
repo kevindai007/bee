@@ -393,6 +393,30 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest);
 
+	/**
+	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
+	 *
+	 * @param propertyNames the names of the parameters
+	 * @param values the values of the parameters, values can be Criterion instance
+	 * @param offset the first result to retrieve, numbered from <tt>0</tt>
+	 * @param limit the maximum number of results
+	 * @return a {@link Pagination} contain query records and the total number of records
+	 */
+	public List<T> findByNamedParam(String[] propertyNames, Object[] values, final int offset, final int limit);
+
+	/**
+	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
+	 *
+	 * @param propertyNames the names of the parameters
+	 * @param values the values of the parameters, values can be Criterion instance
+	 * @param orders {@link org.hibernate.criterion.Order} order instances
+	 * @param offset the first result to retrieve, numbered from <tt>0</tt>
+	 * @param limit the maximum number of results
+	 * @return a {@link Pagination} contain query records and the total number of records
+	 */
+	public List<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, final int offset, final int limit);
+
+
 	// -------------------------------------------------------------------------
 	// Convenience finder methods for named queries
 	// -------------------------------------------------------------------------

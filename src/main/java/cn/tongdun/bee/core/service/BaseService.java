@@ -49,10 +49,6 @@ public interface BaseService<T extends IEntity, ID extends Serializable> {
 
 	public Pagination<T> findByNamedParamAndOrder(String propertyName, Object value, Order order, int page, int limit);
 
-	public Pagination<T> findByNamedParam(String[] propertyNames, Object[] values, int page, int limit);
-
-	public Pagination<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, int page, int limit);
-
 	public Pagination<T> findPage(int page, int limit);
 
 	public Pagination<T> findPageAndOrder(Order[] orders, int page, int limit);
@@ -71,6 +67,10 @@ public interface BaseService<T extends IEntity, ID extends Serializable> {
 
 	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values,
 													  final Order[] orders, final int page, final int limit);
+
+	public List<T> findByNamedParam(String[] propertyNames, Object[] values, final int offset, final int limit);
+
+	public List<T> findByNamedParamAndOrder(String[] propertyNames, Object[] values, Order[] orders, final int offset, final int limit);
 
 	public Long queryCount(String propertyName, Object value);
 
