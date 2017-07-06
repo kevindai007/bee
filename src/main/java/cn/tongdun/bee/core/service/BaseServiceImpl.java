@@ -36,9 +36,17 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	protected boolean isAssignableBaseEntity = true;
 
 	abstract public HibernateBaseDao<T, ID> getHibernateBaseDao();
+
+	private boolean hasSecurityJar = true;
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		try {
+			Class.forName("org.springframework.security.core.Authentication");
+		} catch (Throwable e) {
+			hasSecurityJar = false;
+		}
+
 		Type type = getClass().getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
 			entityClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
@@ -61,14 +69,18 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	@Transactional
 	@Override
 	public ID insertEntity(T entity) {
-		setCreaterAndTime(entity);
+		if(hasSecurityJar) {
+			setCreaterAndTime(entity);
+		}
 		return this.getHibernateBaseDao().save(entity);
 	}
 	
 	@Transactional
 	@Override
 	public void updateEntity(T entity) {
-		setModifierAndTime(entity);
+		if(hasSecurityJar) {
+			setModifierAndTime(entity);
+		}
 		this.getHibernateBaseDao().update(entity);
 	}
 	
