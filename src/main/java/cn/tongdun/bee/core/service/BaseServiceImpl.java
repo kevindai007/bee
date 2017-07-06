@@ -29,7 +29,7 @@ import cn.tongdun.bee.model.BaseEntity;
  * @author libinsong1204@gmail.com
  */
 abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable> implements BaseService<T, ID>, InitializingBean {
-	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	protected static final Logger logger = LoggerFactory.getLogger(BaseServiceImpl.class);
 	
 	protected Class<T> entityClass;
 	
@@ -37,16 +37,19 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 
 	abstract public HibernateBaseDao<T, ID> getHibernateBaseDao();
 
-	private boolean hasSecurityJar = true;
-	
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	private static boolean hasSecurityJar = true;
+
+	static {
 		try {
 			Class.forName("org.springframework.security.core.Authentication");
 		} catch (Throwable e) {
 			hasSecurityJar = false;
 			logger.warn("spring-security-core.jar not exist");
 		}
+	}
+	
+	@Override
+	public void afterPropertiesSet() throws Exception {
 
 		Type type = getClass().getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
