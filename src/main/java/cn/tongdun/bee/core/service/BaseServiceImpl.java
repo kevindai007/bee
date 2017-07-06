@@ -45,6 +45,7 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 			Class.forName("org.springframework.security.core.Authentication");
 		} catch (Throwable e) {
 			hasSecurityJar = false;
+			logger.warn("spring-security-core.jar not exist");
 		}
 
 		Type type = getClass().getGenericSuperclass();
