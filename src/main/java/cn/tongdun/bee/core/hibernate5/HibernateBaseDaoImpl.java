@@ -17,7 +17,6 @@ import javax.persistence.TypedQuery;
 import cn.tongdun.bee.core.support.PaginationRequest;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.FlushMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
@@ -797,13 +796,13 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 				Criteria executableCriteria = session.createCriteria(entityClass);
 				prepareCriteria(executableCriteria);
 
+				long totalRecords = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
+
 				if(orders != null) {
 					for(Order order : orders) {
 						executableCriteria.addOrder(order);
 					}
 				}
-
-				long totalRecords = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
 				executableCriteria.setProjection(null);
 				List items = executableCriteria.setFirstResult(offset).setMaxResults(limit).list();
 
