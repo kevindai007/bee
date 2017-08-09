@@ -1,4 +1,4 @@
-基于hibernate5 封装的公共类，对于单表的CURD操作相比 mybatis 能够减少开发人员很大工作量，适用于内部管理系统。
+基于hibernate5 封装的公共类，对于单表的CURD操作相比 mybatis 能够减少开发人员很大工作量
 
 ```xml
 <dependency>
