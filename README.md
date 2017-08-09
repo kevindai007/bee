@@ -44,7 +44,7 @@
     ```
 4. 参考测试用例：PaginationDaoTest
 
-### 对于复杂的sql，建议使用Spring JdbcTemplate，为了避免SQL直接写在配置文件中，推荐写在配置文件中，具体使用方法：
+### 对于复杂的sql，建议使用Spring JdbcTemplate，为了避免SQL直接写在代码中 ，推荐写在配置文件中，具体使用方法：
 1. 在resources目录下创建目录custom-sql，custom-sql 目录中创建xml文件，xml文件定义sql语句，一个xml文件可以定义多个sql语句，建议一个DAO类对应一个xml文件，例如：user-sql.xml
     ```xml
     <sqls>
