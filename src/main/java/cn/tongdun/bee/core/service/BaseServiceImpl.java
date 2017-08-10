@@ -283,19 +283,21 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 		if(entity instanceof BaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
 
-			BaseEntity baseEntity = (BaseEntity) entity;
-			LoginUserDetails userDetails = (LoginUserDetails) SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal();
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if (userDetails == null) {
-				logger.warn("SecurityContex access to information is empty, please login system.");
-			} else {
-				String name = userDetails.getCnName() + "#" + userDetails.getUsername();
-				baseEntity.setCreater(name);
-				baseEntity.setGmtCreated(new Date());
-				baseEntity.setModifier(name);
-				baseEntity.setGmtModified(new Date());
-			}
+            if(principal instanceof LoginUserDetails) {
+                LoginUserDetails userDetails = (LoginUserDetails) principal;
+                if (userDetails == null) {
+                    logger.warn("SecurityContex access to information is empty, please login system.");
+                } else {
+                    String name = userDetails.getCnName() + "#" + userDetails.getUsername();
+                    BaseEntity baseEntity = (BaseEntity) entity;
+                    baseEntity.setCreater(name);
+                    baseEntity.setGmtCreated(new Date());
+                    baseEntity.setModifier(name);
+                    baseEntity.setGmtModified(new Date());
+                }
+            }
 		}
 	}
 
@@ -303,16 +305,18 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 		if(entity instanceof BaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
 
-			BaseEntity baseEntity = (BaseEntity) entity;
-			LoginUserDetails userDetails = (LoginUserDetails) SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal();
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if(userDetails == null) {
-				logger.warn("SecurityContex access to information is empty, please login system.");
-			} else {
-				String name = userDetails.getCnName() + "#" + userDetails.getUsername();
-				baseEntity.setModifier(name);
-				baseEntity.setGmtModified(new Date());
+			if(principal instanceof LoginUserDetails) {
+				LoginUserDetails userDetails = (LoginUserDetails) principal;
+				if (userDetails == null) {
+					logger.warn("SecurityContex access to information is empty, please login system.");
+				} else {
+					String name = userDetails.getCnName() + "#" + userDetails.getUsername();
+                    BaseEntity baseEntity = (BaseEntity) entity;
+					baseEntity.setModifier(name);
+					baseEntity.setGmtModified(new Date());
+				}
 			}
 		}
 	}
