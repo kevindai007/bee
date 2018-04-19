@@ -10,6 +10,7 @@ import cn.tongdun.bee.core.hibernate5.HibernateBaseDao;
 import cn.tongdun.bee.core.support.PaginationRequest;
 import cn.tongdun.bee.model.IEntity;
 import cn.tongdun.bee.model.LoginUserDetails;
+import cn.tongdun.bee.model.TdBaseEntity;
 import org.hibernate.criterion.Order;
 import org.hibernate.engine.jdbc.LobCreator;
 import org.slf4j.Logger;
@@ -100,6 +101,12 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 		T entity = this.getEntity(id);
 		if(entity != null && entity instanceof BaseEntity) {
 			BaseEntity be = (BaseEntity)entity;
+			//be.setDelFlag(1);
+			this.updateEntity((T) be);
+		}
+
+		if(entity != null && entity instanceof TdBaseEntity) {
+			TdBaseEntity be = (TdBaseEntity)entity;
 			//be.setDelFlag(1);
 			this.updateEntity((T) be);
 		}
@@ -274,7 +281,8 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	public Integer deleteOrUpdateByHQL(final String hql, final String[] paramNames, final Object[] values) {
 		return this.getHibernateBaseDao().deleteOrUpdateByHQL(hql, paramNames, values);
 	}
-	
+
+	@Override
 	public LobCreator getLobCreator() {
 		return this.getHibernateBaseDao().getLobCreator();
 	}
@@ -298,6 +306,24 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
                     baseEntity.setGmtModified(new Date());
                 }
             }
+		} else if(entity instanceof TdBaseEntity &&
+				SecurityContextHolder.getContext().getAuthentication() != null) {
+
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			if(principal instanceof LoginUserDetails) {
+				LoginUserDetails userDetails = (LoginUserDetails) principal;
+				if (userDetails == null) {
+					logger.warn("SecurityContex access to information is empty, please login system.");
+				} else {
+					String name = userDetails.getCnName() + "#" + userDetails.getUsername();
+					TdBaseEntity baseEntity = (TdBaseEntity) entity;
+					baseEntity.setCreater(name);
+					baseEntity.setGmtCreated(new Date());
+					baseEntity.setModifier(name);
+					baseEntity.setGmtModified(new Date());
+				}
+			}
 		}
 	}
 
@@ -314,6 +340,22 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 				} else {
 					String name = userDetails.getCnName() + "#" + userDetails.getUsername();
                     BaseEntity baseEntity = (BaseEntity) entity;
+					baseEntity.setModifier(name);
+					baseEntity.setGmtModified(new Date());
+				}
+			}
+		} else if(entity instanceof TdBaseEntity &&
+				SecurityContextHolder.getContext().getAuthentication() != null) {
+
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			if(principal instanceof LoginUserDetails) {
+				LoginUserDetails userDetails = (LoginUserDetails) principal;
+				if (userDetails == null) {
+					logger.warn("SecurityContex access to information is empty, please login system.");
+				} else {
+					String name = userDetails.getCnName() + "#" + userDetails.getUsername();
+					TdBaseEntity baseEntity = (TdBaseEntity) entity;
 					baseEntity.setModifier(name);
 					baseEntity.setGmtModified(new Date());
 				}

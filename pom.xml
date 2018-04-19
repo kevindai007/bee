@@ -1,14 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>cn.tongdun.bee</groupId>
 	<artifactId>bee</artifactId>
-	<version>0.1.7-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<properties>
-		<hibernate.version>5.2.7.Final</hibernate.version>
+		<hibernate.version>5.2.10.Final</hibernate.version>
 		<hibernate-validator.version>5.4.0.Final</hibernate-validator.version>
-		<spring.version>4.3.6.RELEASE</spring.version>
+		<spring.version>4.3.16.RELEASE</spring.version>
 		<freemarker.version>2.3.23</freemarker.version>
 	</properties>
 	
@@ -23,7 +25,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.16</version>
+			<version>1.16.20</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -111,7 +113,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>4.2.1.RELEASE</version>
+			<version>4.2.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
