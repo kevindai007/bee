@@ -30,7 +30,7 @@ import cn.tongdun.bee.model.BaseEntity;
  * @author libinsong1204@gmail.com
  */
 abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable> implements BaseService<T, ID>, InitializingBean {
-	protected static final Logger logger = LoggerFactory.getLogger(BaseServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(BaseServiceImpl.class);
 	
 	protected Class<T> entityClass;
 	
