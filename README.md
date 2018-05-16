@@ -4,7 +4,7 @@
 <dependency>
   <groupId>cn.tongdun.bee</groupId>
   <artifactId>bee</artifactId>
-  <version>0.1.7-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
 
