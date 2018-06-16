@@ -19,14 +19,13 @@ public class LoginUserDetails extends User {
 
     private String appkey;
 
-    private String appsecret;
-
     public LoginUserDetails(String username, String password,
-                            Collection<? extends GrantedAuthority> authorities) {
+        Collection<? extends GrantedAuthority> authorities) {
         super(username, password, true, true, true, true, authorities);
     }
 
-    public LoginUserDetails(String username, String cnName, String password, Collection<? extends GrantedAuthority> authorities) {
+    public LoginUserDetails(String username, String cnName, String password,
+        Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.cnName = cnName;
     }
@@ -59,11 +58,4 @@ public class LoginUserDetails extends User {
         this.appkey = appkey;
     }
 
-    public String getAppsecret() {
-        return appsecret;
-    }
-
-    public void setAppsecret(String appsecret) {
-        this.appsecret = appsecret;
-    }
 }
