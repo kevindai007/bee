@@ -10,7 +10,7 @@
 	<properties>
 		<hibernate.version>5.2.10.Final</hibernate.version>
 		<hibernate-validator.version>5.4.0.Final</hibernate-validator.version>
-		<spring.version>4.3.16.RELEASE</spring.version>
+		<spring.version>4.3.17.RELEASE</spring.version>
 		<freemarker.version>2.3.23</freemarker.version>
 	</properties>
 	

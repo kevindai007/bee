@@ -41,9 +41,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
-import org.springframework.orm.hibernate4.SessionFactoryUtils;
 
 import cn.tongdun.bee.core.support.Pagination;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 
 /**
  * @author libinsong1204@gmail.com
