@@ -76,6 +76,8 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	public ID insertEntity(T entity) {
 		if(hasSecurityJar) {
 			setCreaterAndTime(entity);
+		} else {
+			setCreateTime(entity);
 		}
 		return this.getHibernateBaseDao().save(entity);
 	}
@@ -85,6 +87,8 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	public void updateEntity(T entity) {
 		if(hasSecurityJar) {
 			setModifierAndTime(entity);
+		} else {
+			setUpdateTime(entity);
 		}
 		this.getHibernateBaseDao().update(entity);
 	}
@@ -327,6 +331,18 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 		}
 	}
 
+	private void setCreateTime(T entity) {
+		if(entity instanceof BaseEntity) {
+			BaseEntity baseEntity = (BaseEntity) entity;
+			baseEntity.setGmtCreated(new Date());
+			baseEntity.setGmtModified(new Date());
+		} else if(entity instanceof TdBaseEntity) {
+			TdBaseEntity baseEntity = (TdBaseEntity) entity;
+			baseEntity.setGmtCreated(new Date());
+			baseEntity.setGmtModified(new Date());
+		}
+	}
+
 	private void setModifierAndTime(T entity) {
 		if(entity instanceof BaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
@@ -360,6 +376,16 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 					baseEntity.setGmtModified(new Date());
 				}
 			}
+		}
+	}
+
+	private void setUpdateTime(T entity) {
+		if(entity instanceof BaseEntity) {
+			BaseEntity baseEntity = (BaseEntity) entity;
+			baseEntity.setGmtModified(new Date());
+		} else if(entity instanceof TdBaseEntity) {
+			TdBaseEntity baseEntity = (TdBaseEntity) entity;
+			baseEntity.setGmtModified(new Date());
 		}
 	}
 }
