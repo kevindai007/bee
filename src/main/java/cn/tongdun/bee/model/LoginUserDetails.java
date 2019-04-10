@@ -10,6 +10,8 @@ import java.util.Collection;
  */
 public class LoginUserDetails extends User {
 
+    private String tenantCode;
+
     /**
      * 中文名称
      */
@@ -28,6 +30,14 @@ public class LoginUserDetails extends User {
         Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.cnName = cnName;
+    }
+
+    public String getTenantCode() {
+        return tenantCode;
+    }
+
+    public void setTenantCode(String tenantCode) {
+        this.tenantCode = tenantCode;
     }
 
     public String getFullName() {
