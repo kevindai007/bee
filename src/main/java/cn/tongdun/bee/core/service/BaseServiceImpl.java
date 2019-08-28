@@ -292,7 +292,7 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	}
 
 	private void setCreaterAndTime(T entity) {
-		if(entity instanceof BaseEntity &&
+		if (entity instanceof BaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
 
 			BaseEntity baseEntity = (BaseEntity) entity;
@@ -301,7 +301,7 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            if(principal instanceof LoginUserDetails) {
+            if (principal instanceof LoginUserDetails) {
                 LoginUserDetails userDetails = (LoginUserDetails) principal;
                 if (userDetails == null) {
                     logger.warn("SecurityContex access to information is empty, please login system.");
@@ -311,7 +311,7 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
                     baseEntity.setModifier(name);
                 }
             }
-		} else if(entity instanceof TdBaseEntity &&
+		} else if (entity instanceof TdBaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
 
 			TdBaseEntity baseEntity = (TdBaseEntity) entity;
@@ -320,7 +320,7 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if(principal instanceof LoginUserDetails) {
+			if (principal instanceof LoginUserDetails) {
 				LoginUserDetails userDetails = (LoginUserDetails) principal;
 				if (userDetails == null) {
 					logger.warn("SecurityContex access to information is empty, please login system.");
@@ -334,7 +334,7 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	}
 
 	private void setCreateTime(T entity) {
-		if(entity instanceof BaseEntity) {
+		if (entity instanceof BaseEntity) {
 			BaseEntity baseEntity = (BaseEntity) entity;
 			baseEntity.setGmtCreated(new Date());
 			baseEntity.setGmtModified(new Date());
@@ -346,43 +346,45 @@ abstract public class BaseServiceImpl<T extends IEntity, ID extends Serializable
 	}
 
 	private void setModifierAndTime(T entity) {
-		if(entity instanceof BaseEntity &&
+		if (entity instanceof BaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
+
+			BaseEntity baseEntity = (BaseEntity) entity;
+			baseEntity.setGmtModified(new Date());
 
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if(principal instanceof LoginUserDetails) {
+			if (principal instanceof LoginUserDetails) {
 				LoginUserDetails userDetails = (LoginUserDetails) principal;
 				if (userDetails == null) {
 					logger.warn("SecurityContex access to information is empty, please login system.");
 				} else {
 					String name = userDetails.getCnName() + "#" + userDetails.getUsername();
-                    BaseEntity baseEntity = (BaseEntity) entity;
 					baseEntity.setModifier(name);
-					baseEntity.setGmtModified(new Date());
 				}
 			}
-		} else if(entity instanceof TdBaseEntity &&
+		} else if (entity instanceof TdBaseEntity &&
 				SecurityContextHolder.getContext().getAuthentication() != null) {
+
+			TdBaseEntity baseEntity = (TdBaseEntity) entity;
+			baseEntity.setGmtModified(new Date());
 
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-			if(principal instanceof LoginUserDetails) {
+			if (principal instanceof LoginUserDetails) {
 				LoginUserDetails userDetails = (LoginUserDetails) principal;
 				if (userDetails == null) {
 					logger.warn("SecurityContex access to information is empty, please login system.");
 				} else {
 					String name = userDetails.getCnName() + "#" + userDetails.getUsername();
-					TdBaseEntity baseEntity = (TdBaseEntity) entity;
 					baseEntity.setModifier(name);
-					baseEntity.setGmtModified(new Date());
 				}
 			}
 		}
 	}
 
 	private void setUpdateTime(T entity) {
-		if(entity instanceof BaseEntity) {
+		if (entity instanceof BaseEntity) {
 			BaseEntity baseEntity = (BaseEntity) entity;
 			baseEntity.setGmtModified(new Date());
 		} else if(entity instanceof TdBaseEntity) {
