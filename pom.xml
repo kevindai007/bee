@@ -5,12 +5,12 @@
 
 	<groupId>cn.tongdun.bee</groupId>
 	<artifactId>bee</artifactId>
-	<version>0.3.6</version>
+	<version>0.3.7</version>
 
 	<properties>
 		<hibernate.version>5.3.9.Final</hibernate.version>
 		<hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
-		<spring.version>5.1.9.RELEASE</spring.version>
+		<spring.version>5.2.6.RELEASE</spring.version>
 		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
 	
@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.1.19</version>
+			<version>1.1.22</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -97,12 +97,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.9.8</version>
+			<version>2.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.8</version>
+			<version>2.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -113,7 +113,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>5.1.5.RELEASE</version>
+			<version>5.3.2.RELEASE</version>
 		</dependency>
 
 		<dependency>
@@ -155,11 +155,11 @@
 
 	<distributionManagement>
 		<repository>
-			<id>fraudmetrixRepo</id>
+			<id>tongdun-nexus</id>
 			<url>http://maven.fraudmetrix.cn/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>fraudmetrixRepo</id>
+			<id>tongdun-nexus</id>
 			<url>http://maven.fraudmetrix.cn/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
