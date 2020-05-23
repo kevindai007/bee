@@ -93,6 +93,8 @@ public class NamedParameterJdbcPager {
 
 	public Pagination<Map<String, Object>> queryPage(String sql, 
 			int offset, int limit, Map<String, Object> paramMap) {
+			
+		// 根据不同数据库，生成对应分析SQL
 		String countSql = PagerUtils.count(sql, dbType);
 		String limitSql = PagerUtils.limit(sql, dbType, offset, limit);
 		
