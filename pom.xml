@@ -5,11 +5,11 @@
 
 	<groupId>cn.tongdun.bee</groupId>
 	<artifactId>bee</artifactId>
-	<version>0.3.7</version>
+	<version>0.3.8</version>
 
 	<properties>
-		<hibernate.version>5.3.9.Final</hibernate.version>
-		<hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
+		<hibernate.version>5.4.16.Final</hibernate.version>
+		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
 		<spring.version>5.2.6.RELEASE</spring.version>
 		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
