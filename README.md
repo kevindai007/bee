@@ -1,8 +1,8 @@
 基于Spring + Hibernate + SpringMvc + Freemark封装的DAO层，简单的CURD使用Hibernate，join等复杂sql可使用freemarker 组装sql，可以省去大半的sql，方便简单快捷。
 
 Base Service和Dao封装了大量的方法，可以省去了大量的代码，基本CURD操作基本需要自定方法，datacompute 项目基于bee开发dao层代码。详细内容请参考:
-- [BaseServiceImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/com/gitee/bee/core/service/BaseServiceImpl.java)
-- [HibernateBaseDaoImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/com/gitee/bee/core/hibernate5/HibernateBaseDaoImpl.java)
+- [BaseServiceImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/service/BaseServiceImpl.java)
+- [HibernateBaseDaoImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/hibernate5/HibernateBaseDaoImpl.java)
 
 ### 引用：所有依靠代码生成的应用都是弟弟，动态字节码才是王道。基于mybatis写的项目终将变成难以维护。所有把面向对象变成面相过程的设计规范、框架都是技术发展的倒退
 
