@@ -4,6 +4,8 @@ Base Service和Dao封装了大量的方法，可以省去了大量的代码，�
 - [BaseServiceImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/service/BaseServiceImpl.java)
 - [HibernateBaseDaoImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/hibernate5/HibernateBaseDaoImpl.java)
 
+可以结合这个项目简化hibernate 操作：https://quarkus.io/guides/hibernate-orm-panache
+
 ### 引用：所有依靠代码生成的应用都是弟弟，动态字节码才是王道。基于mybatis写的项目终将变成难以维护。所有把面向对象变成面相过程的设计规范、框架都是技术发展的倒退
 
 ### 一、使用步骤，以用户实体为离
