@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * 用于转换 JPA Enum 类型数据
  * 使用枚举类型需要实现 Converter Enum 接口
  *
- * Created by libinsong on 2019/12/12 9:18 上午
+ * Created by admin on 2019/12/12 9:18 上午
  */
 @SuppressWarnings("unchecked")
 public abstract class BaseAttributeConverter<E extends ConvertibleEnum<V>, V extends Serializable> implements AttributeConverter<E, V> {

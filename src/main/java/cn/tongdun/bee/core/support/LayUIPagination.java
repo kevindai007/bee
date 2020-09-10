@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  *
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  */
 @SuppressWarnings("serial")
 public class LayUIPagination<E> implements Serializable, Iterable<E> {
@@ -41,12 +41,12 @@ public class LayUIPagination<E> implements Serializable, Iterable<E> {
 		this.limit = limit;
 		this.offset = offset;
 		this.currPage = currPage;
-		
+
 		if(totalPages == 0)
 			this.totalPages = 1;
 		else
 			this.totalPages = totalPages;
-		
+
 		this.totalRecords = totalRecords;
 		setResult(result);
 	}
@@ -56,7 +56,7 @@ public class LayUIPagination<E> implements Serializable, Iterable<E> {
 			throw new IllegalArgumentException("'result' must be not null");
 		this.result = elements;
 	}
-	
+
 	@JsonIgnore
 	public int getOffset() {
 		return offset;
@@ -66,7 +66,7 @@ public class LayUIPagination<E> implements Serializable, Iterable<E> {
 	public int getLimit() {
 		return limit;
 	}
-	
+
 	@JsonProperty("data")
 	public List<E> getResult() {
 		return result;

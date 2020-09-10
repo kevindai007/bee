@@ -1,11 +1,11 @@
 package cn.tongdun.bee.core.hibernate5;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.tongdun.bee.core.support.Pagination;
 import cn.tongdun.bee.core.support.PaginationRequest;
 import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
@@ -14,18 +14,16 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.engine.jdbc.LobCreator;
 
-import cn.tongdun.bee.core.support.Pagination;
-
 /**
  * 提供了常用增删改查(CRUD)功能的DAO基础接口
- * 
- * @author libinsong1204@gmail.com
+ *
+ * @author admin@gmail.com
  */
 @SuppressWarnings("rawtypes")
 public interface HibernateBaseDao<T, ID extends Serializable> {
-	
+
 	public LobCreator getLobCreator();
-	
+
 	// -------------------------------------------------------------------------
 	// Convenience methods for loading individual objects
 	// -------------------------------------------------------------------------
@@ -94,7 +92,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @see org.springframework.orm.hibernate5.HibernateOperations#initialize(Object)
 	 */
 	public void initialize(T proxy);
-	
+
 	/**
 	 * Get the identifier of entity
 	 */
@@ -157,7 +155,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @see org.springframework.orm.hibernate5.HibernateOperations#delete(Object)
 	 */
 	public void delete(T entity);
-	
+
 	/**
 	 * Delete the given identifier.
 	 * @param id the identifier to delete
@@ -236,51 +234,51 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @see org.springframework.orm.hibernate5.HibernateOperations#findByValueBean(String, Object)
 	 */
 	public List findByHQLValueBean(final String queryString, final Object valueBean);
-	
+
 	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit);
-	
-	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit, 
+
+	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit,
 			final String propertyName, final Object value);
-	
-	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit, 
+
+	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit,
 			final String[] propertyNames, final Object[] values);
-	
+
 	// -------------------------------------------------------------------------
 	// Convenience finder methods for dynamic detached criteria
 	// -------------------------------------------------------------------------
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
 	 * @return a {@link List} containing the results of the query execution
 	 */
 	public List<T> findByNamedParam(String propertyName, Object value);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param joinEntity the name of the join entity
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
 	 * @return a {@link List} containing the results of the query execution
 	 */
 	public List<T> findByNamedParam(String joinEntity, String propertyName, Object value);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
 	 * @param order {@link org.hibernate.criterion.Order} order instance
 	 * @return a {@link List} containing the results of the query execution
 	 */
 	public List<T> findByNamedParamAndOrder(String propertyName, Object value, Order order);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param joinEntity the name of the join entity
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
@@ -288,19 +286,19 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @return a {@link List} containing the results of the query execution
 	 */
 	public List<T> findByNamedParamAndOrder(String joinEntity, String propertyName, Object value, Order order);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyNames the names of the parameters
 	 * @param values the values of the parameters, values can be Criterion instance
 	 * @return a {@link List} containing the results of the query execution
 	 */
 	public List<T> findByNamedParam(String[] propertyNames, Object[] values);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyNames the names of the parameters
 	 * @param values the values of the parameters, values can be Criterion instance
 	 * @param orders {@link org.hibernate.criterion.Order} order instances
@@ -310,7 +308,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param joinEntitys the names of the join entities
 	 * @param propertyNames the names of the parameters
 	 * @param values the values of the parameters, values can be Criterion instance
@@ -318,10 +316,10 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @return a {@link List} containing the results of the query execution
 	 */
 	public List<T> findByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, Order[] orders);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param joinEntity the name of the join entity
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
@@ -330,10 +328,10 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @return a {@link Pagination} contain query records and the total number of records
 	 */
 	public Pagination<T> findPageByNamedParam(String joinEntity, String propertyName, Object value, final int offset, final int limit);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
 	 * @param offset the first result to retrieve, numbered from <tt>0</tt>
@@ -341,10 +339,10 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @return a {@link Pagination} contain query records and the total number of records
 	 */
 	public Pagination<T> findPageByNamedParam(String propertyName, Object value, final int offset, final int limit);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyName the name of the parameter
 	 * @param value the value of the parameter, value can be Criterion instance
 	 * @param order {@link org.hibernate.criterion.Order} order instance
@@ -353,10 +351,10 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @return a {@link Pagination} contain query records and the total number of records
 	 */
 	public Pagination<T> findPageByNamedParamAndOrder(String propertyName, Object value, Order order, final int offset, final int limit);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyNames the names of the parameters
 	 * @param values the values of the parameters, values can be Criterion instance
 	 * @param offset the first result to retrieve, numbered from <tt>0</tt>
@@ -364,10 +362,10 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @return a {@link Pagination} contain query records and the total number of records
 	 */
 	public Pagination<T> findPageByNamedParam(String[] propertyNames, Object[] values, final int offset, final int limit);
-	
+
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param propertyNames the names of the parameters
 	 * @param values the values of the parameters, values can be Criterion instance
 	 * @param orders {@link org.hibernate.criterion.Order} order instances
@@ -379,7 +377,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 
 	/**
 	 * Execute a query based on a dynamically created Hibernate criteria object. use parameters to build DetachedCriteria
-	 * 
+	 *
 	 * @param joinEntitys the names of the join entities
 	 * @param propertyNames the names of the parameters
 	 * @param values the values of the parameters, values can be Criterion instance
@@ -388,9 +386,9 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @param limit the maximum number of results
 	 * @return a {@link Pagination} contain query records and the total number of records
 	 */
-	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, 
+	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values,
 			final Order[] orders, final int offset, final int limit);
-	
+
 	public Pagination<T> findPage(PaginationRequest<T> paginationRequest);
 
 	/**
@@ -454,7 +452,7 @@ public interface HibernateBaseDao<T, ID extends Serializable> {
 	 * @see org.springframework.orm.hibernate5.HibernateOperations#findByCriteria(DetachedCriteria)
 	 */
 	public List findByCriteria(DetachedCriteria criteria);
-	
+
 	/**
 	 * Execute a query based on a given Hibernate criteria object.
 	 * @param criteria the detached Hibernate criteria object.

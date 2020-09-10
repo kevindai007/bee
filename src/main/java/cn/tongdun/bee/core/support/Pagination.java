@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  */
 @SuppressWarnings("serial")
 public class Pagination<E> implements Serializable, Iterable<E> {
@@ -19,9 +19,9 @@ public class Pagination<E> implements Serializable, Iterable<E> {
 	protected List<E> result;
 
 	private int offset;
-	
+
 	protected int limit;
-	
+
 	protected long currPage;
 
 	protected long totalPages;
@@ -35,18 +35,18 @@ public class Pagination<E> implements Serializable, Iterable<E> {
 	public Pagination(long totalPages, int offset, int limit, long totalRecords,List<E> result) {
 		this((offset / limit) + 1, totalPages, offset, limit, totalRecords, result);
 	}
-	
+
 	public Pagination(int currPage, long totalPages, int offset, int limit, long totalRecords,List<E> result) {
 		if(limit <= 0) throw new IllegalArgumentException("[pageSize] must great than zero");
 		this.limit = limit;
 		this.offset = offset;
 		this.currPage = currPage;
-		
+
 		if(totalPages == 0)
 			this.totalPages = 1;
 		else
 			this.totalPages = totalPages;
-		
+
 		this.totalRecords = totalRecords;
 		setResult(result);
 	}
@@ -56,7 +56,7 @@ public class Pagination<E> implements Serializable, Iterable<E> {
 			throw new IllegalArgumentException("'result' must be not null");
 		this.result = elements;
 	}
-	
+
 	@JsonIgnore
 	public int getOffset() {
 		return offset;
@@ -66,7 +66,7 @@ public class Pagination<E> implements Serializable, Iterable<E> {
 	public int getLimit() {
 		return limit;
 	}
-	
+
 	@JsonProperty("rows")
 	public List<E> getResult() {
 		return result;
@@ -86,7 +86,7 @@ public class Pagination<E> implements Serializable, Iterable<E> {
 	public long getTotalRecords() {
 		return totalRecords;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public Iterator<E> iterator() {
 		return (Iterator<E>) (result == null ? Collections.emptyList().iterator() : result.iterator());

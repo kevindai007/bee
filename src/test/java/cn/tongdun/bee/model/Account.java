@@ -1,32 +1,32 @@
 package cn.tongdun.bee.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import cn.tongdun.bee.enums.RoleEnum;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name="TEST_ACCOUNT")
 @Data
 public class Account {
 	@Id
-	@GeneratedValue(generator = "tableGenerator")     
+	@GeneratedValue(generator = "tableGenerator")
     @GenericGenerator(name = "tableGenerator", strategy="increment")
 	private Long id;
 	private String name;
 	private String email;
 	private int age;
 	private String cardNo;
-	
-	@OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)   
-	@JoinColumn(name = "address_id")    
+
+	@Column(name = "role")
+	@Type(type = "cn.tongdun.bee.core.enums.StringValuedEnumType", parameters = {
+			@Parameter(name = "enumClass", value = "cn.tongdun.bee.enums.RoleEnum")})
+	private RoleEnum role;
+
+	@OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "address_id")
 	private Address address;
 }

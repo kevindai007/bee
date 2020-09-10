@@ -25,13 +25,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  * @date 2012-6-19 上午11:34:58
  */
 public class SQLManager implements SQLManagerMBean {
-	
+
 	private static final Logger _logger = LoggerFactory.getLogger(SQLManager.class);
-	
+
 	private ConcurrentMap<String, CompositeData> concurrentMap = new ConcurrentHashMap<String, CompositeData>();
 
 	@Override
@@ -77,17 +77,17 @@ public class SQLManager implements SQLManagerMBean {
 		try {
 			CompositeType rowType = getCompositeType();
 	        String[] indexNames = rowType.keySet().toArray(new String[rowType.keySet().size()]);
-	
+
 	        TabularType tabularType = new TabularType("SQLStatistic", "SQLStatistic", rowType, indexNames);
 	        data = new TabularDataSupport(tabularType);
-	        
+
 	        for(Entry<String, CustomSQL.SQLBean> entry : CustomSQL.getInstance().getAllSQL().entrySet()) {
 	        	 Map<String,String> map = new HashMap<String, String>();
 	             map.put("id", entry.getKey());
 	             map.put("tempateType", entry.getValue().getTempateType());
 	             map.put("sqlType", entry.getValue().getSqlType());
 	             map.put("SQL", entry.getValue().getContent());
-	             
+
 	             CompositeData compositeData = new CompositeDataSupport(getCompositeType(), map);
 	             data.put(compositeData);
 	             concurrentMap.put(entry.getKey(), compositeData);
@@ -96,7 +96,7 @@ public class SQLManager implements SQLManagerMBean {
 			_logger.error(e.getMessage(), e);
 		}
 	}
-	
+
 	private CompositeType COMPOSITE_TYPE = null;
 	private CompositeType getCompositeType() throws JMException {
 

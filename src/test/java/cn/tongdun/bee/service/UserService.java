@@ -7,7 +7,7 @@ import cn.tongdun.bee.persistence.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Created by libinsong on 2017/2/26.
+ * Created by admin on 2017/2/26.
  */
 public class UserService extends BaseServiceImpl<User, Long> {
 

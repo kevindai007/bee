@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  *
  * https://gitee.com/Devifish/spring-converter-enum
  *
- * Created by libinsong on 2019/12/12 9:19 上午
+ * Created by admin on 2019/12/12 9:19 上午
  */
 @SuppressWarnings("unchecked")
 public class ConverterEnumFactory implements ConverterFactory<String, ConvertibleEnum<?>> {

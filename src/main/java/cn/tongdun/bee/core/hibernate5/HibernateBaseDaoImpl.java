@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import javax.annotation.PostConstruct;
 import javax.persistence.TypedQuery;
 
+import cn.tongdun.bee.core.support.Pagination;
 import cn.tongdun.bee.core.support.PaginationRequest;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -42,33 +43,32 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
 
-import cn.tongdun.bee.core.support.Pagination;
 import org.springframework.orm.hibernate5.SessionFactoryUtils;
 
 /**
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  * @date 2012-7-26 上午9:21:53
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class HibernateBaseDaoImpl<T, ID extends Serializable> implements HibernateBaseDao<T, ID> {
 	private static final Logger logger = LoggerFactory.getLogger(HibernateBaseDaoImpl.class);
-	
+
 	@Autowired
 	protected ApplicationContext applicationContext;
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	protected Class<T> entityClass;
 
 	protected String entityName;
-	
+
 	private boolean checkWriteOperations = true;
-	
+
 	private boolean cacheQueries = false;
-	
+
 	private String queryCacheRegion;
-	
+
 	private int fetchSize = 0;
 
 	private int maxResults = 0;
@@ -83,7 +83,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(entityClass);
 		entityName = classMetadata.getEntityName();
 	}
-	
+
 	public LobCreator getLobCreator() {
 		return Hibernate.getLobCreator(sessionFactory.getCurrentSession());
 	}
@@ -157,7 +157,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			@Override
 			public T doInHibernate(Session session) throws HibernateException, SQLException {
 				session.load(entity, id);
-				
+
 				return null;
 			}
 		});
@@ -178,7 +178,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 					session.refresh(entity);
 				else
 					session.refresh(entity, lockOption);
-				
+
 				return null;
 			}
 		});
@@ -219,9 +219,9 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			return null;
 		}
 		ClassMetadata cm = this.sessionFactory.getClassMetadata(entityClass);
-		if ( cm==null ) 
+		if ( cm==null )
 			throw new RuntimeException("gIO(): Unable to get class metadata for " + entityClass.getSimpleName());
-		return cm.getIdentifier(entity);	
+		return cm.getIdentifier(entity);
 	}
 
 	// -------------------------------------------------------------------------
@@ -331,7 +331,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	@Override
 	public T delete(ID id) {
 		T entity = this.get(id);
-		
+
 		if (entity != null) {
 			this.delete(entity);
 		}
@@ -447,7 +447,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 		if (paramNames.length != values.length) {
 			throw new IllegalArgumentException("Length of paramNames array must match length of values array");
 		}
-		
+
 		return doExecute(new HibernateCallback<List>() {
 
 			@Override
@@ -484,20 +484,20 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	}
 
 	@Override
-	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit, 
+	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit,
 			final String propertyName, final Object value) {
 		return this.findPageByHQL(rowSql, countSql, offset, limit, new String[]{propertyName}, new Object[]{value});
 	}
 
 	@Override
-	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit, 
+	public Pagination<Object> findPageByHQL(final String rowSql, final String countSql, final int offset, final int limit,
 			final String[] propertyNames, final Object[] values) {
-		
+
 		return doExecute(new HibernateCallback<Pagination<Object>>() {
 			public Pagination<Object> doInHibernate(Session session) throws HibernateException {
 				Query rowQuery = session.createQuery(rowSql).setFirstResult(offset).setMaxResults(limit);
 				Query countQuery = session.createQuery(countSql);
-				
+
 				for(int i=0, len=propertyNames.length; i<len; i++) {
 					if(values[i] != null) {
 						rowQuery.setParameter(propertyNames[i], values[i]);
@@ -513,7 +513,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			}
 		});
 	}
-	
+
 	// -------------------------------------------------------------------------
 	// Convenience finder methods for dynamic detached criteria
 	// -------------------------------------------------------------------------
@@ -587,17 +587,17 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	}
 
 	@Override
-	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, 
+	public Pagination<T> findPageByNamedParamAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values,
 			final Order[] orders, final int offset, final int limit) {
 		final DetachedCriteria criteria = createDetachedCriteria(joinEntitys, propertyNames, values);
-		
+
 		return doExecute(new HibernateCallback<Pagination<T>>() {
 			public Pagination<T> doInHibernate(Session session) throws HibernateException {
 				Criteria executableCriteria = criteria.getExecutableCriteria(session);
 				prepareCriteria(executableCriteria);
-				
+
 				long totalRecords = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
-				
+
 				executableCriteria.setProjection(null);
 				if(orders != null) {
 					for (Order order : orders) {
@@ -620,16 +620,16 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			public Pagination<T> doInHibernate(Session session) throws HibernateException {
 				Criteria executableCriteria = criteria.getExecutableCriteria(session);
 				prepareCriteria(executableCriteria);
-				
+
 				long totalRecords = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
-				
+
 				executableCriteria.setProjection(null);
 				if(paginationRequest.getOrders() != null) {
 					for (Order order : paginationRequest.getOrders()) {
 						criteria.addOrder(order);
 					}
 				}
-				
+
 				int offset = paginationRequest.getOffset();
 				int limit = paginationRequest.getLimit();
 				List items = executableCriteria.setFirstResult(offset).setMaxResults(limit).list();
@@ -746,7 +746,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			public Long doInHibernate(Session session) throws HibernateException {
 				Criteria executableCriteria = criteria.getExecutableCriteria(session);
 				prepareCriteria(executableCriteria);
-				
+
 				long totalCount = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
 				return totalCount;
 			}
@@ -759,7 +759,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			public Pagination<T> doInHibernate(Session session) throws HibernateException {
 				Criteria executableCriteria = criteria.getExecutableCriteria(session);
 				prepareCriteria(executableCriteria);
-				
+
 				long totalRecords = ((Long) executableCriteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
 				executableCriteria.setProjection(null);
 				List items = executableCriteria.setFirstResult(offset).setMaxResults(limit).list();
@@ -913,7 +913,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 		for (int i = 0, len = propertyNames.size(); i < len; i++) {
 			String propertyName = propertyNames.get(i);
 			Object value = values.get(i);
-			
+
 			if (value instanceof Criterion) {
 				criteria.add((Criterion) value);
 			} else if (value instanceof Collection) {
@@ -922,7 +922,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 				criteria.add(Restrictions.in(propertyName, (Object[])value));
 			} else if (value instanceof Map) {
 				Iterator<Entry<String, Object>> iterator = ((Map<String, Object>)value).entrySet().iterator();
-				
+
 				Criterion lhs, rhs;
 				Entry<String, Object> entry = iterator.next();
 				if("like".equals(propertyName)) {
@@ -935,7 +935,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 					rhs = Restrictions.eq(entry.getKey(), entry.getValue());
 				}
 				lhs = Restrictions.or(lhs, rhs);
-				
+
 				while(iterator.hasNext()) {
 					entry = iterator.next();
 					if("like".equals(propertyName)) {
@@ -945,7 +945,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 					}
 					lhs = Restrictions.or(lhs, rhs);
 				}
-				
+
 				criteria.add(lhs);
 			} else {
 				criteria.add(Restrictions.eq(propertyName, value));
@@ -961,7 +961,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	public void setEntityClass(Class<T> entityClass) {
 		this.entityClass = entityClass;
 	}
-	
+
 	protected <R> R doExecute(HibernateCallback<R> action) {
 		Session session = null;
 		try {
@@ -974,12 +974,12 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			throw convertJdbcAccessException(e);
 		}
 	}
-	
+
 	private SQLExceptionTranslator jdbcExceptionTranslator;
 
 	private SQLExceptionTranslator defaultJdbcExceptionTranslator;
-	
-	
+
+
 	public DataAccessException convertHibernateAccessException(HibernateException ex) {
 		if (getJdbcExceptionTranslator() != null && ex instanceof JDBCException) {
 			return convertJdbcAccessException((JDBCException) ex, getJdbcExceptionTranslator());
@@ -989,11 +989,11 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 		}
 		return SessionFactoryUtils.convertHibernateAccessException(ex);
 	}
-	
+
 	protected DataAccessException convertJdbcAccessException(JDBCException ex, SQLExceptionTranslator translator) {
 		return translator.translate("Hibernate operation: " + ex.getMessage(), ex.getSQL(), ex.getSQLException());
 	}
-	
+
 	protected DataAccessException convertJdbcAccessException(SQLException ex) {
 		SQLExceptionTranslator translator = getJdbcExceptionTranslator();
 		if (translator == null) {
@@ -1001,7 +1001,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 		}
 		return translator.translate("Hibernate-related JDBC operation", null, ex);
 	}
-	
+
 	protected void checkWriteOperationAllowed(Session session) {
 		if (isCheckWriteOperations() && session.isDefaultReadOnly()) {
 			throw new InvalidDataAccessApiUsageException(
@@ -1009,7 +1009,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 					"Turn your Session into FlushMode.COMMIT/AUTO or remove 'readOnly' marker from transaction definition.");
 		}
 	}
-	
+
 	protected void prepareQuery(Query queryObject) {
 		if (isCacheQueries()) {
 			queryObject.setCacheable(true);
@@ -1024,7 +1024,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			queryObject.setMaxResults(getMaxResults());
 		}
 	}
-	
+
 	protected void applyNamedParameterToQuery(Query queryObject, String paramName, Object value)
 			throws HibernateException {
 
@@ -1038,7 +1038,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			queryObject.setParameter(paramName, value);
 		}
 	}
-	
+
 	public SQLExceptionTranslator getJdbcExceptionTranslator() {
 		return jdbcExceptionTranslator;
 	}
@@ -1056,7 +1056,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			SQLExceptionTranslator defaultJdbcExceptionTranslator) {
 		this.defaultJdbcExceptionTranslator = defaultJdbcExceptionTranslator;
 	}
-	
+
 	public void setCheckWriteOperations(boolean checkWriteOperations) {
 		this.checkWriteOperations = checkWriteOperations;
 	}
@@ -1064,7 +1064,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	public boolean isCheckWriteOperations() {
 		return this.checkWriteOperations;
 	}
-	
+
 	public void setCacheQueries(boolean cacheQueries) {
 		this.cacheQueries = cacheQueries;
 	}
@@ -1072,7 +1072,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	public boolean isCacheQueries() {
 		return this.cacheQueries;
 	}
-	
+
 	public void setQueryCacheRegion(String queryCacheRegion) {
 		this.queryCacheRegion = queryCacheRegion;
 	}
@@ -1080,7 +1080,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 	public String getQueryCacheRegion() {
 		return this.queryCacheRegion;
 	}
-	
+
 	public void setFetchSize(int fetchSize) {
 		this.fetchSize = fetchSize;
 	}

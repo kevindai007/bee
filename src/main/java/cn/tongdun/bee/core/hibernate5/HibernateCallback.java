@@ -10,7 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  * @date 2012-7-26 下午1:04:48
  */
 public interface HibernateCallback<T> {

@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Address {
 	@Id
-	@GeneratedValue(generator = "tableGenerator")     
+	@GeneratedValue(generator = "tableGenerator")
     @GenericGenerator(name = "tableGenerator", strategy="increment")
 	private Long id;
 	private String name;

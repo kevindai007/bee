@@ -9,13 +9,13 @@ import org.springframework.util.StringUtils;
 
 /**
  *
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  */
 public class PaginationRequest<T> {
 	private List<String> joinEntitys = new ArrayList<String>();
 	private List<String> propertyNames = new ArrayList<String>();
 	private List<Object> values = new ArrayList<Object>();
-	
+
 	/**
 	 * 开始查询行索引
 	 */
@@ -24,9 +24,9 @@ public class PaginationRequest<T> {
 	 * 分页大小
 	 */
 	private int limit;
-	
+
 	private int page;
-	
+
 	/**
 	 * 排序字段
 	 */
@@ -36,14 +36,14 @@ public class PaginationRequest<T> {
 		this.offset = offset;
 		this.limit = limit;
 	}
-	
-	
+
+
 	public PaginationRequest(int page, int offset, int limit) {
 		this.page = page;
 		this.offset = offset;
 		this.limit = limit;
 	}
-	
+
 	public void addCondition(String propertyName, Object value) {
 		if(value != null) {
 			if((value instanceof String) && (StringUtils.hasText((String)value))) {
@@ -55,7 +55,7 @@ public class PaginationRequest<T> {
 			}
 		}
 	}
-	
+
 	public void addLikeCondition(String propertyName, String value) {
 		if(value != null) {
 			if((value instanceof String) && (StringUtils.hasText((String)value))) {
@@ -67,25 +67,25 @@ public class PaginationRequest<T> {
 			}
 		}
 	}
-	
+
 	public void addJoinEntity(String entityName) {
 		joinEntitys.add(entityName);
 	}
-	
+
 	public void addOrder(String propertyName, boolean ascending) {
 		if(ascending)
 			orders.add(Order.asc(propertyName));
 		else
 			orders.add(Order.desc(propertyName));
 	}
-	
+
 	public void addOrder(String propertyName, String mode) {
 		if("ASC".equals(mode.toUpperCase()))
 			orders.add(Order.asc(propertyName));
 		else
 			orders.add(Order.desc(propertyName));
 	}
-	
+
 	public Object getPropertyValue(String propertyName) {
 		for(int i=0, len=propertyNames.size(); i<len; i++) {
 			if(propertyNames.get(i).equals(propertyName)) {

@@ -10,7 +10,7 @@ import javax.persistence.*;
 /**
  *
  * @datetime 2010-8-12 下午05:15:55
- * @author libinsong1204@gmail.com
+ * @author admin@gmail.com
  */
 @MappedSuperclass
 @Data
@@ -20,20 +20,20 @@ public class BaseEntity implements IEntity, Serializable {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-	
+
 	@Column(name="CREATER", updatable=false)
 	private String creater;
 	@Column(name="MODIFIER")
 	private String modifier;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name="GMT_CREATED", updatable = false)
 	private Date gmtCreated;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="GMT_MODIFIED")
 	private Date gmtModified;
-	
+
 	public Long getId() {
 		return id;
 	}

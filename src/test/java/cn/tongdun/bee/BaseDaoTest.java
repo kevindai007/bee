@@ -4,31 +4,34 @@ import static junit.framework.Assert.assertEquals;
 
 import java.util.List;
 
+import cn.tongdun.bee.enums.RoleEnum;
+import cn.tongdun.bee.model.Account;
+import cn.tongdun.bee.model.Address;
 import cn.tongdun.bee.persistence.AccountDao;
+import junit.framework.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import cn.tongdun.bee.model.Account;
-import cn.tongdun.bee.model.Address;
-
 @ContextConfiguration(locations={"classpath:dao-context.xml"})
 public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Autowired
 	private AccountDao accountDao;
-	
+
 	@Test
 	public void testFindByID() {
 		Account account = new Account();
 		account.setName("melin");
+		account.setRole(RoleEnum.ADMIN);
 		Long id = accountDao.save(account);
-		
+
 		Account _account = accountDao.get(id);
-		
+
 		assertEquals("melin", _account.getName());
+		Assert.assertEquals(RoleEnum.ADMIN, _account.getRole());
 	}
-	
+
 	@Test
 	public void testFindJoinEntity() {
 		Account account = new Account();
@@ -37,7 +40,7 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 		address.setName("hefei");
 		account.setAddress(address);
 		accountDao.save(account);
-		
+
 		List<Account> list = accountDao.findByNamedParam("address", "address.name", "hefei");
 		assertEquals(1, list.size());
 		assertEquals("melin", list.get(0).getName());
