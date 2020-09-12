@@ -46,7 +46,7 @@ Base Service和Dao封装了大量的方法，可以省去了大量的代码，�
 在Rails 和 Grails 有比较成熟的 ActiveRecord 模式应用，简单尝试中，后续开发继续完善
 ```
 1、初始化spring bean 激活 ActiveRecord
-<bean class="com.gitee.bee.core.hibernate5.ActiveRecordInitializer" />
+<bean class="cn.tongdun.bee.core.hibernate5.ActiveRecordInitializer" />
 
 2、Entity 集成 ActiveRecord, ActiveRecord 集成 BaseEntity
 @Entity

@@ -1,4 +1,4 @@
-package com.gitee.bee.core.hibernate5;
+package cn.tongdun.bee.core.hibernate5;
 
 import org.springframework.context.ApplicationContext;
 

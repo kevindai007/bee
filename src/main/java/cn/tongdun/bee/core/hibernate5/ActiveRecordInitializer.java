@@ -1,6 +1,6 @@
-package com.gitee.bee.core.hibernate5;
+package cn.tongdun.bee.core.hibernate5;
 
-import com.gitee.bee.model.ActiveRecord;
+import cn.tongdun.bee.model.ActiveRecord;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hibernate.SessionFactory;

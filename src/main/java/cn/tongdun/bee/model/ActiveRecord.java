@@ -1,7 +1,7 @@
-package com.gitee.bee.model;
+package cn.tongdun.bee.model;
 
-import com.gitee.bee.core.hibernate5.ActiveRecordInitializer;
-import com.gitee.bee.core.hibernate5.HibernateBaseDao;
+import cn.tongdun.bee.core.hibernate5.ActiveRecordInitializer;
+import cn.tongdun.bee.core.hibernate5.HibernateBaseDao;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;

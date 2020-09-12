@@ -1,7 +1,7 @@
-package com.gitee.bee;
+package cn.tongdun.bee;
 
-import com.gitee.bee.enums.RoleEnum;
-import com.gitee.bee.model.Account;
+import cn.tongdun.bee.enums.RoleEnum;
+import cn.tongdun.bee.model.Account;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
