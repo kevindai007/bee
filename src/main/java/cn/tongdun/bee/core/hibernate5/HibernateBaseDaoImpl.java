@@ -80,8 +80,7 @@ public class HibernateBaseDaoImpl<T, ID extends Serializable> implements Hiberna
 			entityClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
 		}
 
-		ClassMetadata classMetadata = sessionFactory.getClassMetadata(entityClass);
-		entityName = classMetadata.getEntityName();
+		entityName = sessionFactory.getMetamodel().entity(entityClass).getName();
 	}
 
 	public LobCreator getLobCreator() {

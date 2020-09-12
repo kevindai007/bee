@@ -1,10 +1,10 @@
-基于Spring + Hibernate + SpringMvc + Freemark封装的DAO层，简单的CURD使用Hibernate，join等复杂sql可使用freemarker 组装sql，可以省去大半的sql，方便简单快捷。
-
+基于Spring + Hibernate + JdbcTemplate + Freemark封装的DAO层，简单的CURD使用Hibernate，join等复杂sql可使用freemarker 组装sql，可以省去大半的sql，方便简单快捷。
 Base Service和Dao封装了大量的方法，可以省去了大量的代码，基本CURD操作基本需要自定方法，datacompute 项目基于bee开发dao层代码。详细内容请参考:
-- [BaseServiceImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/service/BaseServiceImpl.java)
-- [HibernateBaseDaoImpl](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/hibernate5/HibernateBaseDaoImpl.java)
 
-### 引用：所有依靠代码生成的应用都是弟弟，动态字节码才是王道。基于mybatis写的项目终将变成难以维护。所有把面向对象变成面相过程的设计规范、框架都是技术发展的倒退
+- [BaseServiceImpl.java](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/service/BaseServiceImpl.java)
+- [HibernateBaseDaoImpl.java](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/hibernate5/HibernateBaseDaoImpl.java)
+
+引用：所有依靠代码生成的应用都是弟弟，动态字节码才是王道。基于mybatis写的项目终将变成难以维护。所有把面向对象变成面相过程的设计规范、框架都是技术发展的倒退
 
 ### 一、使用步骤，以用户实体为离
 1. 定义User Entity，继承BaseEntity
@@ -40,62 +40,41 @@ Base Service和Dao封装了大量的方法，可以省去了大量的代码，�
     
     }
     ```
-4. DataCcompute中使用例子
-```java
-//案例一
-Criterion tableName = Restrictions.like("tableName", searchValue, MatchMode.ANYWHERE);
-Criterion modifier = Restrictions.like("modifier", searchValue, MatchMode.ANYWHERE);
-List<TableEntity> tableList = tableService.findByNamedParamAndOrder(new String[]{"databaseName", "tableName"},
-        new Object[]{projectCode, Restrictions.or(tableName, modifier)}, Order.asc("tableName"));
+4. 参考测试用例：PaginationDaoTest
 
-//案例二
-Criterion name = Restrictions.like("name", searchValue, MatchMode.ANYWHERE);
-Criterion modifier = Restrictions.like("modifier", searchValue, MatchMode.ANYWHERE);
+### 二、ActiveRecord 模式实现
+在Rails 和 Grails 有比较成熟的 ActiveRecord 模式应用，简单尝试中，后续开发继续完善
+```
+1、初始化spring bean 激活 ActiveRecord
+<bean class="com.gitee.bee.core.hibernate5.ActiveRecordInitializer" />
 
-String[] paramKeys = new String[]{"projectCode", "trash", "current", "name"};
-Object[] paramValus = new Object[]{projectCode, trash, current, Restrictions.or(name, modifier)};
-if ("job".equals(type) && "yes".equals(displayOwnerFolder)) {
-    paramKeys = ArrayUtils.add(paramKeys, "owner");
-    paramValus = ArrayUtils.add(paramValus, AuthUtil.getFullName());
+2、Entity 集成 ActiveRecord, ActiveRecord 集成 BaseEntity
+@Entity
+@Table(name="TEST_ACCOUNT")
+@Data
+public class Account extends ActiveRecord {
+  ...
 }
 
-List<JobEntity> jobEntityList = jobService.findByNamedParamAndOrder(paramKeys, paramValus, Order.asc("name"));
+3、参考一节，定义Dao和Service类
 
-//案例三
-if (StringUtils.isNotEmpty(startTime)) {
-    params.add("runStart");
-    SimpleExpression contentCri = Restrictions.ge("runStart", DateUtils.convertDate(startTime));
-    values.add(Restrictions.and(contentCri));
+4、example
+@Test
+public void testFindByID() {
+    Account account = new Account();
+    account.setName("melin");
+    account.setRole(RoleEnum.ADMIN);
+    Long id = account.save();
+
+    Account _account = Account.findById(id);
+
+    assertEquals("melin", _account.getName());
+    assertEquals(RoleEnum.ADMIN, _account.getRole());
 }
-
-if (StringUtils.isNotEmpty(endTime)) {
-    params.add("runStart");
-    SimpleExpression contentCri = Restrictions.le("runStart", DateUtils.convertDate(endTime));
-    values.add(Restrictions.and(contentCri));
-}
-
-if (status != null) {
-    params.add("status");
-    values.add(status);
-}
-
-Order order1 = Order.desc("gmtModified");
-if (StringUtils.isNotEmpty(sort)) {
-    if ("asc".equals(order)) {
-        order1 = Order.asc(sort);
-    } else {
-        order1 = Order.desc(sort);
-    }
-}
-
-return jobInstanceService.findPageByNamedParamAndOrder(params.toArray(new String[]{}), values.toArray(),
-        new Order[]{order1}, page, rows);
 
 ```
-  
-5. 参考测试用例：PaginationDaoTest
 
-### 二、对于复杂的sql，建议使用Spring JdbcTemplate，为了避免SQL直接写在代码中 ，推荐写在配置文件中，具体使用方法：
+### 三、对于复杂的sql，建议使用Spring JdbcTemplate，为了避免SQL直接写在代码中 ，推荐写在配置文件中，具体使用方法：
 1. 在resources目录下创建目录custom-sql，custom-sql 目录中创建xml文件，xml文件定义sql语句，一个xml文件可以定义多个sql语句，建议一个DAO类对应一个xml文件，例如：user-sql.xml
     ```xml
     <sqls>
@@ -120,51 +99,29 @@ return jobInstanceService.findPageByNamedParamAndOrder(params.toArray(new String
 2. CustomSQL 注册为spring bean
 3. 代码中使用 CustomSQLUtil.get(String id, Map<String, Object> models) 获取sql。
 
-### 三、定制sql分页查询, 建议使用 NamedParameterJdbcPager 类
+### 四、定制sql分页查询, 建议使用 NamedParameterJdbcPager 类
+NamedParameterJdbcPager 封装了sql 分页查询，使用[druid parser](https://github.com/alibaba/druid/wiki/Use_PageUtils) 解析查询sql，自动生成统计count语句，具体细节请看代码：[NamedParameterJdbcPager.java](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/jdbc/NamedParameterJdbcPager.java)
 ```java
-public class NamedParameterJdbcPager {
-	
-	/**
-	 * dbType: 数据库类型，具体值请参考：com.alibaba.druid.util.JdbcConstants
-	 */
-	private final String dbType;
-	
-	private NamedParameterJdbcTemplate jdbcTemplate;
-	
-	public NamedParameterJdbcPager(DataSource dataSource, String dbType) {
-		Assert.isNull(dbType, "dbType cannot be empty");
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-		this.dbType = dbType;
-	}
-	
-	public Pagination<Map<String, Object>> queryPage(String sql,
-                                                     int offset, int limit) {
-		return this.queryPage(sql, offset, limit, null);
-	}
-
-	public Pagination<Map<String, Object>> queryPage(String sql, 
-			int offset, int limit, Map<String, Object> paramMap) {
-			
-		// 根据不同数据库，生成对应分析SQL
-		String countSql = PagerUtils.count(sql, dbType);
-		String limitSql = PagerUtils.limit(sql, dbType, offset, limit);
-		
-		long totalRecords = jdbcTemplate.queryForObject(countSql, paramMap, Long.class);
-		List<Map<String, Object>> items = jdbcTemplate.queryForList(limitSql, paramMap);
-		
-		double totalPages = Math.ceil(totalRecords * 1d / limit);
-		Pagination<Map<String, Object>> page = new Pagination<Map<String, Object>>((long)totalPages, offset, limit, totalRecords, items);
-		return page;
-	}
-
-	public String getDbType() {
-		return dbType;
-	}
-	
+//使用实例
+public Pagination<Map<String, Object>> getTablePartitions(String databaseName, String tableName, int page,
+                                                             int rows, String sort, String order) {
+    String sql = "select * from hive.t_table_partition where database_name = :databaseName and table_name = :tableName ";
+    if (StringUtils.isEmpty(sort)) {
+        sql += " order by partition_spec desc";
+    } else {
+        sql += " order by " + sort;
+        if (!StringUtils.isEmpty(order)) {
+            sql += " " + order;
+        }
+    }
+    Map<String, Object> params = Maps.newHashMap();
+    params.put("databaseName", databaseName.toLowerCase());
+    params.put("tableName", tableName.toLowerCase());
+    return hiveMetaJdbcPager.queryPage(sql, page, rows, params);
 }
 ```
 
-### 四、Entity 字段定义enum，解决spring mvc 和 hibernate 支持enum，Example: 
+### 五、Entity 字段定义enum，解决spring mvc 和 hibernate 支持enum，Example: 
 spring mvc Formatter 支持 Enum
 ```java
 @Override
@@ -242,7 +199,7 @@ public void testFindByID() {
 ```
 
 
-### 五、基于spring security扩展的账号管理
+### 六、基于spring security扩展的账号管理
 
 ```sql
 -- 确保用户表有email 字段

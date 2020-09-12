@@ -56,4 +56,5 @@
   		</property>
  	</bean>
 
+	<bean class="com.gitee.bee.core.hibernate5.ActiveRecordInitializer" />
 </beans>

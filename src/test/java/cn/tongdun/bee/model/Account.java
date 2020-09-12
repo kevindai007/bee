@@ -11,7 +11,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name="TEST_ACCOUNT")
 @Data
-public class Account {
+public class Account extends ActiveRecord {
 	@Id
 	@GeneratedValue(generator = "tableGenerator")
     @GenericGenerator(name = "tableGenerator", strategy="increment")
