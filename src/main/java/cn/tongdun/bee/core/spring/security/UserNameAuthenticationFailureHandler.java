@@ -34,14 +34,14 @@ public class UserNameAuthenticationFailureHandler extends SimpleUrlAuthenticatio
             AuthenticationException exception)
             throws IOException, ServletException {
 
-        super.onAuthenticationFailure(request, response, exception);
-
         if (exception instanceof ForceUpdateCredentialsException ||
                 exception instanceof AccountExpiredException) {
             this.setDefaultFailureUrl(changePasswordUrl);
         } else {
             this.setDefaultFailureUrl(loginUrl);
         }
+        
+        super.onAuthenticationFailure(request, response, exception);
 
         String lastUserName = request.getParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY);
 
