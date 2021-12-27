@@ -1,8 +1,8 @@
 基于Spring + Hibernate + JdbcTemplate + Freemark封装的DAO层，简单的CURD使用Hibernate，join等复杂sql可使用freemarker 组装sql，可以省去大半的sql，方便简单快捷。
 Base Service和Dao封装了大量的方法，可以省去了大量的代码，基本CURD操作基本需要自定方法，datacompute 项目基于bee开发dao层代码。详细内容请参考:
 
-- [BaseServiceImpl.java](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/service/BaseServiceImpl.java)
-- [HibernateBaseDaoImpl.java](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/hibernate5/HibernateBaseDaoImpl.java)
+- [BaseServiceImpl.java]
+- [HibernateBaseDaoImpl.java]
 
 引用：所有依靠代码生成的应用都是弟弟，动态字节码才是王道。基于mybatis写的项目终将变成难以维护。所有把面向对象变成面相过程的设计规范、框架都是技术发展的倒退
 
@@ -46,7 +46,7 @@ Base Service和Dao封装了大量的方法，可以省去了大量的代码，�
 在Rails 和 Grails 有比较成熟的 ActiveRecord 模式应用，简单尝试中，后续开发继续完善
 ```
 1、初始化spring bean 激活 ActiveRecord
-<bean class="cn.tongdun.bee.core.hibernate5.ActiveRecordInitializer" />
+<bean class="ActiveRecordInitializer" />
 
 2、Entity 集成 ActiveRecord, ActiveRecord 集成 BaseEntity
 @Entity
@@ -100,7 +100,7 @@ public void testFindByID() {
 3. 代码中使用 CustomSQLUtil.get(String id, Map<String, Object> models) 获取sql。
 
 ### 四、定制sql分页查询, 建议使用 NamedParameterJdbcPager 类
-NamedParameterJdbcPager 封装了sql 分页查询，使用[druid parser](https://github.com/alibaba/druid/wiki/Use_PageUtils) 解析查询sql，自动生成统计count语句，具体细节请看代码：[NamedParameterJdbcPager.java](https://gitlab.fraudmetrix.cn/internal/bee/blob/master/src/main/java/cn/tongdun/bee/core/jdbc/NamedParameterJdbcPager.java)
+NamedParameterJdbcPager 封装了sql 分页查询，使用[druid parser](https://github.com/alibaba/druid/wiki/Use_PageUtils) 解析查询sql，自动生成统计count语句，具体细节请看代码：[NamedParameterJdbcPager.java]
 ```java
 //使用实例
 public Pagination<Map<String, Object>> getTablePartitions(String databaseName, String tableName, int page,

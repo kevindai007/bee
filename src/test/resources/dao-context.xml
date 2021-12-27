@@ -13,7 +13,7 @@
       http://www.springframework.org/schema/jee
       http://www.springframework.org/schema/jee/spring-jee-3.2.xsd">
 
-	<context:component-scan base-package="cn.tongdun.bee" />
+	<context:component-scan base-package="cn.kevindai.bee" />
 
 	<jdbc:embedded-database id="dataSource" type="H2" >
 	</jdbc:embedded-database>
@@ -36,7 +36,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>cn.tongdun.bee.model</value>
+				<value>cn.kevindai.bee.model</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -56,5 +56,5 @@
   		</property>
  	</bean>
 
-	<bean class="cn.tongdun.bee.core.hibernate5.ActiveRecordInitializer" />
+	<bean class="cn.kevindai.bee.core.hibernate5.ActiveRecordInitializer" />
 </beans>
